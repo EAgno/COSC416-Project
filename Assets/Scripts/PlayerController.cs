@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,8 +9,29 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Parameters")]
     [SerializeField] private float moveSpeed = 5f;
 
+    [Header("Player Weapons")]
+    [SerializeField] private GameObject bombPrefab;
+
+    [Header("Player Stats")]
+    [SerializeField]
+    private int bombAttacks = 3;
+    [SerializeField]
+    private int explosionPower = 1;
+
     private Rigidbody2D rb;
     private Vector2 movement;
+
+
+    public int getExplosionPower()
+    {
+        return this.explosionPower;
+    }
+
+    public void setExplosionPower(int explosionPower)
+    {
+        this.explosionPower = explosionPower;
+    }
+
 
     void Start()
     {
@@ -47,7 +69,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnAttack()
     {
-        Debug.Log("Player attacked!");
+        if (bombPrefab != null && bombAttacks > 0)
+        {
+            // Spawn the bomb at the player's position
+            GameObject bombInstance = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+
+            // Get the Bomb script from the spawned bomb
+            Bomb bombScript = bombInstance.GetComponent<Bomb>();
+
+            // Pass this PlayerController to the Bomb script
+            if (bombScript != null)
+            {
+                bombScript.SetPlayerReference(this);
+            }
+
+            bombAttacks--;
+
+            Debug.Log("Bombs left: " + bombAttacks);
+        }
+        else
+        {
+            Debug.Log("No bombs left!");
+        }
     }
 
     // Don't forget to unsubscribe when the object is destroyed
