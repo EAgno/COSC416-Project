@@ -42,7 +42,7 @@ public class Bomb : MonoBehaviour
         // if player power is 1, spawn one tile in each direction.
         if (firePrefab != null)
         {
-            SpawnFire(transform.position);
+            SpawnFire(transform.position, explosionDuration);
 
             Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
@@ -54,7 +54,7 @@ public class Bomb : MonoBehaviour
     }
 
     // spawn the fire based on position of the bomb
-    void SpawnFire(Vector2 position)
+    void SpawnFire(Vector2 position, float explosionDuration)
     {
         GameObject fire = Instantiate(firePrefab, position, Quaternion.identity);
         Destroy(fire, explosionDuration);
@@ -66,7 +66,7 @@ public class Bomb : MonoBehaviour
         for (int i = 1; i <= explosionPower; i++)
         {
             Vector2 newPosition = startPosition + direction * i;
-            SpawnFire(newPosition);
+            SpawnFire(newPosition, explosionDuration + (i * 0.1f));
         }
     }
 }
