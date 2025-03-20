@@ -62,7 +62,8 @@ public class Bomb : MonoBehaviour
     // spawn the fire based on position of the bomb
     void SpawnFire(Vector2 position, float explosionDuration)
     {
-        GameObject fire = Instantiate(firePrefab, position, Quaternion.identity);
+        Vector2 roundedPosition = RoundToGrid(position);
+        GameObject fire = Instantiate(firePrefab, roundedPosition, Quaternion.identity);
         Destroy(fire, explosionDuration);
     }
 
@@ -74,5 +75,11 @@ public class Bomb : MonoBehaviour
             Vector2 newPosition = startPosition + direction * i;
             SpawnFire(newPosition, explosionDuration + (i * 0.2f));
         }
+    }
+
+    // Rounds position to the nearest integer grid point
+    Vector2 RoundToGrid(Vector2 position)
+    {
+        return new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
     }
 }
