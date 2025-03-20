@@ -7,7 +7,6 @@ public class Bomb : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject firePrefab;
-    [SerializeField] private GameObject smokePrefab;
 
     [Header("Explosion Settings")]
     [SerializeField] private float explosionDuration = 0.7f;
@@ -51,19 +50,12 @@ public class Bomb : MonoBehaviour
             playerController.setBombAttacks(currentBombs + 1);
         }
 
-        if (smokePrefab != null)
-        {
-            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity);
-            Destroy(smoke, explosionDuration - 0.4f);
-        }
-
     }
 
     // spawn the fire based on position of the bomb
     void SpawnFire(Vector2 position, float explosionDuration)
     {
-        Vector2 roundedPosition = RoundToGrid(position);
-        GameObject fire = Instantiate(firePrefab, roundedPosition, Quaternion.identity);
+        GameObject fire = Instantiate(firePrefab, position, Quaternion.identity);
         Destroy(fire, explosionDuration);
     }
 
@@ -75,11 +67,5 @@ public class Bomb : MonoBehaviour
             Vector2 newPosition = startPosition + direction * i;
             SpawnFire(newPosition, explosionDuration + (i * 0.2f));
         }
-    }
-
-    // Rounds position to the nearest integer grid point
-    Vector2 RoundToGrid(Vector2 position)
-    {
-        return new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
     }
 }
