@@ -30,14 +30,6 @@ public class Bomb : MonoBehaviour
         // Destroy the bomb itself
         Destroy(gameObject);
 
-
-
-        if (smokePrefab != null)
-        {
-            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity);
-            Destroy(smoke, explosionDuration - 0.4f);
-        }
-
         // Spawn fire and smoke at the bomb's position
         // if player power is 1, spawn one tile in each direction.
         if (firePrefab != null)
@@ -51,6 +43,20 @@ public class Bomb : MonoBehaviour
                 SpreadFire(transform.position, direction);
             }
         }
+
+        // give the bomb attacks back to the player
+        if (playerController != null)
+        {
+            int currentBombs = playerController.getBombAttacks();
+            playerController.setBombAttacks(currentBombs + 1);
+        }
+
+        if (smokePrefab != null)
+        {
+            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity);
+            Destroy(smoke, explosionDuration - 0.4f);
+        }
+
     }
 
     // spawn the fire based on position of the bomb
@@ -66,7 +72,7 @@ public class Bomb : MonoBehaviour
         for (int i = 1; i <= explosionPower; i++)
         {
             Vector2 newPosition = startPosition + direction * i;
-            SpawnFire(newPosition, explosionDuration + (i * 0.1f));
+            SpawnFire(newPosition, explosionDuration + (i * 0.2f));
         }
     }
 }

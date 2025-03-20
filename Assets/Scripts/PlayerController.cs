@@ -32,6 +32,16 @@ public class PlayerController : MonoBehaviour
         this.explosionPower = explosionPower;
     }
 
+    public int getBombAttacks()
+    {
+        return this.bombAttacks;
+    }
+
+    public void setBombAttacks(int bombAttacks)
+    {
+        this.bombAttacks = bombAttacks;
+    }
+
 
     void Start()
     {
