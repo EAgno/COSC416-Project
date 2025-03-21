@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float invulnerabilityDuration = 2f;
     [SerializeField] private float flickerInterval = 0.1f;
 
+    private SpriteRenderer spriteRenderer;
+    private bool isInvulnerable = false;
+
 
     private bool isInvulnerable = false;
 
