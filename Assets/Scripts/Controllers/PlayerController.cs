@@ -27,8 +27,6 @@ public class PlayerController : MonoBehaviour
     private bool isInvulnerable = false;
     private SpriteRenderer spriteRenderer;
 
-
-
     private Rigidbody2D rb;
     private Vector2 movement;
 
@@ -67,7 +65,7 @@ public class PlayerController : MonoBehaviour
         return this.isInvulnerable;
     }
 
-    // Coroutine to make the player invulnerable for a short duration
+    // Coroutine to make the player invulnerable for a short duration when hit
     private IEnumerator InvulnerabilityCoroutine()
     {
         isInvulnerable = true;
@@ -91,6 +89,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found on player!");
+            return;
+        }
 
         // Make sure InputManager is assigned
         if (inputManager == null)
@@ -102,7 +107,6 @@ public class PlayerController : MonoBehaviour
         // Subscribe to the OnAttack event
         inputManager.OnAttack.AddListener(OnAttack);
     }
-
     void Update()
     {
         // Get input
