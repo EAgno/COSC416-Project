@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
     Vector2 RoundToGrid(Vector2 position)
     {
         Vector2 roundedPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
-        Debug.Log($"Original position: {position}, Rounded position: {roundedPos}");
         return roundedPos;
     }
 
@@ -104,11 +103,6 @@ public class PlayerController : MonoBehaviour
 
             bombAttacks--;
 
-            Debug.Log("Bombs left: " + bombAttacks);
-        }
-        else
-        {
-            Debug.Log("No bombs left!");
         }
     }
 
