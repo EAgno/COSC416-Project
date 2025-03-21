@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
         isInvulnerable = true;
         float elapsedTime = 0f;
 
+        Color oldColor = spriteRenderer.color;
+
         while (elapsedTime < invulnerabilityDuration)
         {
             // Toggle transparency between 0.3 and 1.0
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Reset to fully visible
-        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+        spriteRenderer.color = oldColor;
         isInvulnerable = false;
     }
 
