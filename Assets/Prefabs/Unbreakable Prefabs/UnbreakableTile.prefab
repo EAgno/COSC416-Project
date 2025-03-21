@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4825221839042240892}
   m_Layer: 0
   m_Name: UnbreakableTile
-  m_TagString: Untagged
+  m_TagString: Unbreakable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

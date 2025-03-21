@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,10 +19,27 @@ public class PlayerController : MonoBehaviour
     private int bombAttacks = 3;
     [SerializeField]
     private int explosionPower = 1;
+    [SerializeField] private int lives = 3;
+
+    [Header("Invulnerability Settings")]
+    [SerializeField] private float invulnerabilityDuration = 2f;
+    [SerializeField] private float flickerInterval = 0.1f;
+
+
+    private bool isInvulnerable = false;
 
     private Rigidbody2D rb;
     private Vector2 movement;
 
+    public int getLives()
+    {
+        return this.lives;
+    }
+
+    public void setLives(int lives)
+    {
+        this.lives = lives;
+    }
 
     public int getExplosionPower()
     {
@@ -43,6 +61,31 @@ public class PlayerController : MonoBehaviour
         this.bombAttacks = bombAttacks;
     }
 
+    public bool IsInvulnerable()
+    {
+        return this.isInvulnerable;
+    }
+
+    // Coroutine to make the player invulnerable for a short duration
+    private IEnumerator InvulnerabilityCoroutine()
+    {
+        isInvulnerable = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < invulnerabilityDuration)
+        {
+            // Toggle transparency between 0.3 and 1.0
+            spriteRenderer.color = new Color(1f, 1f, 1f,
+                spriteRenderer.color.a == 1f ? 0.3f : 1f);
+
+            yield return new WaitForSeconds(flickerInterval);
+            elapsedTime += flickerInterval;
+        }
+
+        // Reset to fully visible
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+        isInvulnerable = false;
+    }
 
     void Start()
     {
@@ -114,6 +157,23 @@ public class PlayerController : MonoBehaviour
         if (inputManager != null)
         {
             inputManager.OnAttack.RemoveListener(OnAttack);
+        }
+    }
+
+    public void Die()
+    {
+        if (isInvulnerable) return;
+
+        lives--;
+        if (lives <= 0)
+        {
+            // Game Over
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            // give the player invulnerability for a short duration
+            StartCoroutine(InvulnerabilityCoroutine());
         }
     }
 }

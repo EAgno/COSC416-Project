@@ -4439,6 +4439,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5166506335435760643, guid: 2b5e56f0335fb4ad889c1533c16ff9b3, type: 3}
+      propertyPath: m_TagString
+      value: Unbreakable
+      objectReference: {fileID: 0}
     - target: {fileID: 5974303431398249180, guid: 2b5e56f0335fb4ad889c1533c16ff9b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5178,6 +5182,10 @@ PrefabInstance:
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1921762323}
+    - target: {fileID: 9073815142620986102, guid: 2fad1a6b91f841b49840c2d30ad4a79c, type: 3}
+      propertyPath: explosionPower
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1909232409467949361, guid: 2fad1a6b91f841b49840c2d30ad4a79c, type: 3}
     m_RemovedGameObjects: []
