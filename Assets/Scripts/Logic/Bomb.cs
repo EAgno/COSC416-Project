@@ -43,7 +43,7 @@ public class Bomb : MonoBehaviour
             }
         }
 
-        // give the bomb attacks back to the player
+        // give the bomb attacks back to the player (regenerate)
         if (playerController != null)
         {
             int currentBombs = playerController.getBombAttacks();
@@ -65,6 +65,15 @@ public class Bomb : MonoBehaviour
         for (int i = 1; i <= explosionPower; i++)
         {
             Vector2 newPosition = startPosition + direction * i;
+
+            // Check if there's an unbreakable wall at this position
+            RaycastHit2D hit = Physics2D.Raycast(newPosition, Vector2.zero);
+            if (hit.collider != null && hit.collider.CompareTag("Unbreakable"))
+            {
+                // Stop spreading fire if we hit an unbreakable wall
+                break;
+            }
+
             SpawnFire(newPosition, explosionDuration + (i * 0.2f));
         }
     }

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Stats")]
     [SerializeField]
+    // this acts as a "limit" for the player to place bombs
     private int bombAttacks = 3;
     [SerializeField]
     private int explosionPower = 1;
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
         movement = inputManager.GetMovementInput();
     }
 
+    // this line actually moves the player in the FixedUpdate method
     void FixedUpdate()
     {
         Move();
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Rounds position to the nearest integer grid point
+    // so that we can place bombs in the 1x1 grids
     Vector2 RoundToGrid(Vector2 position)
     {
         Vector2 roundedPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnAttack()
     {
+        // if the player has bombs left, and the bomb prefab is assigned
         if (bombPrefab != null && bombAttacks > 0)
         {
             // Spawn the bomb at the player's position
@@ -100,13 +104,11 @@ public class PlayerController : MonoBehaviour
             {
                 bombScript.SetPlayerReference(this);
             }
-
             bombAttacks--;
-
         }
     }
 
-    // Don't forget to unsubscribe when the object is destroyed
+    // unsubscribe when the object is destroyed
     void OnDestroy()
     {
         if (inputManager != null)

@@ -4433,7 +4433,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5166506335435760643, guid: 2b5e56f0335fb4ad889c1533c16ff9b3, type: 3}
       propertyPath: m_Name
-      value: Tile
+      value: UnbreakableTile
       objectReference: {fileID: 0}
     - target: {fileID: 5166506335435760643, guid: 2b5e56f0335fb4ad889c1533c16ff9b3, type: 3}
       propertyPath: m_IsActive
