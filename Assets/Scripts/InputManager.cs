@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class InputManager : MonoBehaviour
 {
     public UnityEvent<Vector2> OnMove = new();
     public UnityEvent OnAttack = new();
+
+
 
     public Vector2 GetMovementInput()
     {
