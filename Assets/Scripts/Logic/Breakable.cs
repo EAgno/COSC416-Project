@@ -11,6 +11,7 @@ public class Breakable : MonoBehaviour
     public void DestroyBlock()
     {
         Destroy(gameObject);
+
         SpawnDestroyEffect(transform.position, destroyEffectDuration);
     }
 

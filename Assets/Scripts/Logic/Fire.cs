@@ -3,6 +3,12 @@ using UnityEngine.Tilemaps;
 
 public class Fire : MonoBehaviour
 {
+    [Header("Destroy Effect")]
+    [Tooltip("The effect that will be spawned when the block is destroyed")]
+    [SerializeField] private GameObject _destroyEffect;
+    [SerializeField] private int destroyEffectDuration = 1;
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Handle Tilemap collisions
@@ -19,6 +25,7 @@ public class Fire : MonoBehaviour
                 if (tilemap.HasTile(cellPosition))
                 {
                     tilemap.SetTile(cellPosition, null);
+                    SpawnDestroyEffect(hitPosition, destroyEffectDuration);
                 }
 
                 return; // Exit to avoid processing the entire Tilemap further
@@ -42,6 +49,14 @@ public class Fire : MonoBehaviour
                 Debug.Log("Player hit by fire!");
                 playerComponent.Die();
             }
+        }
+    }
+    public void SpawnDestroyEffect(Vector2 position, float duration)
+    {
+        if (_destroyEffect != null)
+        {
+            GameObject destroyEffect = Instantiate(_destroyEffect, position, Quaternion.identity);
+            Destroy(destroyEffect, duration);
         }
     }
 }
