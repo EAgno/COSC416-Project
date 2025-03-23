@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
 
+
+    private Animator animator;
+
     public int getLives()
     {
         return this.lives;
@@ -93,34 +96,33 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("SpriteRenderer component not found on player!");
-            return;
-        }
+        animator = GetComponent<Animator>();
 
-        // Make sure InputManager is assigned
-        if (inputManager == null)
-        {
-            Debug.LogError("InputManager is not assigned to PlayerController!");
-            return;
-        }
 
         // Subscribe to the OnAttack event
         inputManager.OnAttack.AddListener(OnAttack);
     }
+
     void Update()
     {
         // Get input
         movement = inputManager.GetMovementInput();
+
+
+        animator.SetFloat("Speed", Mathf.Abs(movement.x));  // Set Speed parameter
 
         // Handle jump input
         if (isGrounded && movement.y > 0)
         {
             Jump();
         }
+
+
+        // Update jumping animation
+        animator.SetBool("IsJumping", !isGrounded);
     }
 
     // this line actually moves the player in the FixedUpdate method
@@ -136,6 +138,18 @@ public class PlayerController : MonoBehaviour
             // Only use horizontal movement
             float horizontalMovement = movement.x * moveSpeed;
             rb.linearVelocity = new Vector2(horizontalMovement, rb.linearVelocity.y);
+
+            if (spriteRenderer != null)
+            {
+                if (horizontalMovement > 0)
+                {
+                    spriteRenderer.flipX = false;  // Face right
+                }
+                else if (horizontalMovement < 0)
+                {
+                    spriteRenderer.flipX = true;   // Face left
+                }
+            }
         }
     }
 

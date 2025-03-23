@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 
 
 
+
     public Vector2 GetMovementInput()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
