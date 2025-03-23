@@ -1,19 +1,27 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Fire : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // this is the fire spawned by the bomb, so if it hits a breakable block, destroy it
-        if (other.CompareTag("Breakable"))
+        if (other.CompareTag("Breakable") && other.TryGetComponent<TilemapCollider2D>(out var tilemapCollider))
         {
-            var breakableComponent = other.GetComponent<Breakable>();
-            if (breakableComponent != null)
+            Tilemap tilemap = tilemapCollider.GetComponent<Tilemap>();
+
+            if (tilemap != null)
             {
-                breakableComponent.DestroyBlock();
+                // Use the fire's position directly
+                Vector3Int cellPosition = tilemap.WorldToCell(transform.position);
+
+                if (tilemap.HasTile(cellPosition))
+                {
+                    tilemap.SetTile(cellPosition, null);
+                }
             }
         }
-        // if the fire hits the player, kill the player
+
+        // Keep your existing player collision logic
         if (other.CompareTag("Player"))
         {
             var playerComponent = other.GetComponent<PlayerController>();

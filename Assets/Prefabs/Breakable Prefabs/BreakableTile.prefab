@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5177974900031720127
 Transform:
   m_ObjectHideFlags: 0
@@ -147,5 +147,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a893025c5c6ba4790087d1037979fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyEffect: {fileID: 2024093440772338211, guid: 0eb9329eb8b5735409e6b34920c874fd, type: 3}
+  _destroyEffect: {fileID: 209103260801149857, guid: d0febcca11264554b90016f5a6c96c4c, type: 3}
   destroyEffectDuration: 1
