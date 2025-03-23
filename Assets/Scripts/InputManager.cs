@@ -14,6 +14,9 @@ public class InputManager : MonoBehaviour
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
+        // Only pass vertical input if it's the up direction (jump)
+        if (verticalInput < 0) verticalInput = 0;
+
         return new Vector2(horizontalInput, verticalInput).normalized;
     }
 

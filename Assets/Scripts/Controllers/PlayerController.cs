@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Parameters")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 5f;  // Add this line
+    private bool isGrounded;  // Add this line
 
     [Header("Player Weapons")]
     [SerializeField] private GameObject bombPrefab;
@@ -113,6 +115,12 @@ public class PlayerController : MonoBehaviour
     {
         // Get input
         movement = inputManager.GetMovementInput();
+
+        // Handle jump input
+        if (isGrounded && movement.y > 0)
+        {
+            Jump();
+        }
     }
 
     // this line actually moves the player in the FixedUpdate method
@@ -125,7 +133,47 @@ public class PlayerController : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.linearVelocity = movement * moveSpeed;
+            // Only use horizontal movement
+            float horizontalMovement = movement.x * moveSpeed;
+            rb.linearVelocity = new Vector2(horizontalMovement, rb.linearVelocity.y);
+        }
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        isGrounded = false;
+    }
+
+    // Add ground detection
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if there are any contact points
+        if (collision.contacts.Length > 0)
+        {
+            // Check if the collision is below the player
+            if (collision.contacts[0].normal.y > 0.7f)
+            {
+                isGrounded = true;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Check if there are any contact points
+        if (collision.contacts.Length > 0)
+        {
+            // Check if we're leaving ground contact
+            if (collision.contacts[0].normal.y > 0.7f)
+            {
+                isGrounded = false;
+            }
+        }
+        else
+        {
+            // If no contact points, assume we're leaving the ground
+            isGrounded = false;
         }
     }
 
