@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     public int getLives()
     {
-        return this.lives;
+        return lives;
     }
 
     public void setLives(int lives)
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     public int getExplosionPower()
     {
-        return this.explosionPower;
+        return explosionPower;
     }
 
     public void setExplosionPower(int explosionPower)
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     public int getBombAttacks()
     {
-        return this.bombAttacks;
+        return bombAttacks;
     }
 
     public void setBombAttacks(int bombAttacks)
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsInvulnerable()
     {
-        return this.isInvulnerable;
+        return isInvulnerable;
     }
 
     // Coroutine to make the player invulnerable for a short duration when hit

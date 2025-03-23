@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 199571180}
   - component: {fileID: 199571179}
   - component: {fileID: 199571181}
+  - component: {fileID: 199571182}
   m_Layer: 0
   m_Name: Breakables
   m_TagString: Breakable
@@ -461,6 +462,20 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &199571182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199571177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a893025c5c6ba4790087d1037979fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destroyEffect: {fileID: 0}
+  destroyEffectDuration: 1
 --- !u!1 &750014594 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9206883943136927355, guid: d1e6a14491e077d4aafbdcd806daf387, type: 3}
@@ -509,6 +524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20686c402739d39459b68aa6ae5d405f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &807347903 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+  m_PrefabInstance: {fileID: 1335722111368473646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &819715062
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,10 +672,9 @@ GameObject:
   - component: {fileID: 1394538902}
   - component: {fileID: 1394538901}
   - component: {fileID: 1394538903}
-  - component: {fileID: 1394538904}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Unbreakable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17823,20 +17842,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &1394538904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394538899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a893025c5c6ba4790087d1037979fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _destroyEffect: {fileID: 0}
-  destroyEffectDuration: 1
 --- !u!1 &1524683778
 GameObject:
   m_ObjectHideFlags: 0
@@ -17991,7 +17996,7 @@ GameObject:
   - component: {fileID: 2081250464}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Unbreakable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20899,67 +20904,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!1001 &1159036774245323571
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1741886180293524238, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_Name
-      value: TileDestroyer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208818329237126605, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7305344556026121538, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
-      propertyPath: tilemap
-      value: 
-      objectReference: {fileID: 199571180}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d8e696ed642fd4d42b2d138945ab5bb6, type: 3}
 --- !u!1001 &1335722111368473646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21010,6 +20954,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425607176886572732, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7514972561782197024, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
@@ -21133,7 +21081,7 @@ PrefabInstance:
     - target: {fileID: 7736263923659227567, guid: 2c2584be5eb1eaa4899ffe059605d882, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 807347903}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21272,5 +21220,4 @@ SceneRoots:
   - {fileID: 843779190}
   - {fileID: 1989473596}
   - {fileID: 819715064}
-  - {fileID: 1159036774245323571}
   - {fileID: 1335722111368473646}

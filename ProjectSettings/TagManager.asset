@@ -7,6 +7,7 @@ TagManager:
   - Breakable
   - Fire
   - Unbreakable
+  - Bomb
   layers:
   - Default
   - TransparentFX
