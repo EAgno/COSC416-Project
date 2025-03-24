@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 1394538904}
   - component: {fileID: 1394538905}
   - component: {fileID: 1394538906}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Unbreakable
   m_Icon: {fileID: 0}
@@ -22243,6 +22243,18 @@ PrefabInstance:
       propertyPath: explosionPower
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: groundCheckSize.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: groundCheckDistance
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13
@@ -22282,6 +22294,10 @@ PrefabInstance:
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425607176886572732, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: m_Size.y
+      value: 0.61
       objectReference: {fileID: 0}
     - target: {fileID: 7514972561782197024, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_Name

@@ -32,16 +32,18 @@ public class PlayerController : MonoBehaviour
     private bool isInvulnerable = false;
     private SpriteRenderer spriteRenderer;
 
-    [Header("Ground Detection")]
-    [SerializeField] private float groundCheckDistance = 0.1f;
-    [SerializeField] private LayerMask groundLayer; // Assign your ground/tilemap layer in the Inspector
-
     private Rigidbody2D rb;
     private Vector2 movement;
 
     private bool jumpPressed = false;
 
     private Animator animator;
+
+    [Header("Ground Detection")]
+    [SerializeField] private LayerMask groundLayer; // Assign your ground layers in the inspector
+    [SerializeField] private float groundCheckDistance = 0.1f; // Distance to check for ground
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.02f); // Size of ground check box
+    [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f); // Offset from center (adjust based on your collider)
 
     public int getLives()
     {
@@ -119,9 +121,6 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Abs(movement.x));  // Set Speed parameter
 
-        // Check ground status with raycast
-        CheckGroundStatus();
-
         // Check for new jump button press
         bool jumpButtonDown = movement.y > 0;
 
@@ -138,45 +137,22 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsJumping", !isGrounded);
     }
 
-    private void CheckGroundStatus()
-    {
-        // Cast rays from slightly inside the character's collider
-        Vector2 raycastOrigin = transform.position;
-        raycastOrigin.y -= GetComponent<Collider2D>().bounds.extents.y;
-
-        // Main center ray
-        bool hitGround = Physics2D.Raycast(raycastOrigin, Vector2.down, groundCheckDistance, groundLayer);
-
-        // Left and right foot rays for better detection
-        bool hitGroundLeft = Physics2D.Raycast(
-            new Vector2(raycastOrigin.x - 0.25f, raycastOrigin.y),
-            Vector2.down, groundCheckDistance, groundLayer);
-
-        bool hitGroundRight = Physics2D.Raycast(
-            new Vector2(raycastOrigin.x + 0.25f, raycastOrigin.y),
-            Vector2.down, groundCheckDistance, groundLayer);
-
-        // Debug rays to visualize in Scene view
-        Debug.DrawRay(raycastOrigin, Vector2.down * groundCheckDistance, Color.red);
-        Debug.DrawRay(new Vector2(raycastOrigin.x - 0.25f, raycastOrigin.y), Vector2.down * groundCheckDistance, Color.red);
-        Debug.DrawRay(new Vector2(raycastOrigin.x + 0.25f, raycastOrigin.y), Vector2.down * groundCheckDistance, Color.red);
-
-        // We're grounded if any ray hits
-        bool wasGrounded = isGrounded;
-        isGrounded = hitGround || hitGroundLeft || hitGroundRight;
-
-        // Reset jumps when landing
-        if (!wasGrounded && isGrounded)
-        {
-            jumpsRemaining = maxJumps;
-            animator.SetBool("IsDBJumping", false);
-        }
-    }
-
     // this line actually moves the player in the FixedUpdate method
     void FixedUpdate()
     {
         Move();
+
+        // Update ground state
+        bool wasGrounded = isGrounded;
+        isGrounded = CheckGrounded();
+
+        // Reset jumps when landing
+        if (isGrounded && !wasGrounded)
+        {
+            jumpsRemaining = maxJumps;
+            animator.SetBool("IsDBJumping", false);
+        }
+
         CheckFallingState();
     }
 
@@ -223,6 +199,41 @@ public class PlayerController : MonoBehaviour
 
             isGrounded = false;
         }
+    }
+
+    // Replace OnCollisionEnter2D and OnCollisionExit2D with this method
+    private bool CheckGrounded()
+    {
+        // Calculate the position for the ground check
+        Vector2 position = (Vector2)transform.position + groundCheckOffset;
+
+        // Use BoxCast for more reliable ground detection
+        RaycastHit2D hit = Physics2D.BoxCast(
+            position,
+            groundCheckSize,
+            0f,
+            Vector2.down,
+            groundCheckDistance,
+            groundLayer
+        );
+
+        // Optional: Draw debug visualization in Scene view
+        DrawGroundCheck(position);
+
+        return hit.collider != null;
+    }
+
+    // Optional debug visualization
+    private void DrawGroundCheck(Vector2 position)
+    {
+        // Only draw in editor
+#if UNITY_EDITOR
+        Color debugColor = isGrounded ? Color.green : Color.red;
+        Debug.DrawRay(position - new Vector2(groundCheckSize.x / 2, 0), Vector2.right * groundCheckSize.x, debugColor);
+        Debug.DrawRay(position - new Vector2(groundCheckSize.x / 2, 0) + Vector2.down * groundCheckDistance, Vector2.right * groundCheckSize.x, debugColor);
+        Debug.DrawRay(position - new Vector2(groundCheckSize.x / 2, 0), Vector2.down * groundCheckDistance, debugColor);
+        Debug.DrawRay(position + new Vector2(groundCheckSize.x / 2, 0), Vector2.down * groundCheckDistance, debugColor);
+#endif
     }
 
     // Rounds position to the nearest integer grid point
