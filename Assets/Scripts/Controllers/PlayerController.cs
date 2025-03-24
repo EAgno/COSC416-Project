@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Parameters")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 5f;  // Add this line
-    private bool isGrounded;  // Add this line
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private int maxJumps = 2; // 2 for double jump, 3 for triple jump
+    private int jumpsRemaining;
+    private bool isGrounded;
+    private bool isFalling;
 
     [Header("Player Weapons")]
     [SerializeField] private GameObject bombPrefab;
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
 
+    private bool jumpPressed = false;
 
     private Animator animator;
 
@@ -96,11 +100,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
         spriteRenderer = GetComponent<SpriteRenderer>();
-
         animator = GetComponent<Animator>();
-
+        jumpsRemaining = maxJumps; // Initialize jumps
 
         // Subscribe to the OnAttack event
         inputManager.OnAttack.AddListener(OnAttack);
@@ -111,15 +113,19 @@ public class PlayerController : MonoBehaviour
         // Get input
         movement = inputManager.GetMovementInput();
 
-
         animator.SetFloat("Speed", Mathf.Abs(movement.x));  // Set Speed parameter
 
-        // Handle jump input
-        if (isGrounded && movement.y > 0)
+        // Check for new jump button press
+        bool jumpButtonDown = movement.y > 0;
+
+        // Only jump if button is pressed (not held) or first frame on ground
+        if (jumpButtonDown && !jumpPressed)
         {
             Jump();
         }
 
+        // Update jump button state
+        jumpPressed = jumpButtonDown;
 
         // Update jumping animation
         animator.SetBool("IsJumping", !isGrounded);
@@ -129,6 +135,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        CheckFallingState();
     }
 
     private void Move()
@@ -155,8 +162,25 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        isGrounded = false;
+        // Only allow jump if we have jumps remaining
+        if (jumpsRemaining > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // Reset vertical velocity for consistent jumps
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpsRemaining--;
+
+            if (!isGrounded)
+            {
+                animator.SetBool("IsDBJumping", true);
+            }
+            else
+            {
+                // This is a regular jump from the ground
+                animator.SetBool("IsDBJumping", false);
+            }
+
+            isGrounded = false;
+        }
     }
 
     // Add ground detection
@@ -169,6 +193,8 @@ public class PlayerController : MonoBehaviour
             if (collision.contacts[0].normal.y > 0.7f)
             {
                 isGrounded = true;
+                jumpsRemaining = maxJumps; // Reset available jumps
+                animator.SetBool("IsDBJumping", false);
             }
         }
     }
@@ -236,13 +262,29 @@ public class PlayerController : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
-            // Game Over
             Debug.Log("Game Over");
         }
         else
         {
-            // give the player invulnerability for a short duration
             StartCoroutine(InvulnerabilityCoroutine());
         }
+    }
+
+    private void CheckFallingState()
+    {
+        if (rb != null)
+        {
+            isFalling = rb.linearVelocity.y < -0.1f; // Small negative threshold to account for minor fluctuations
+
+            // Update animator if you want to show falling animation
+            if (animator != null)
+            {
+                animator.SetBool("IsFalling", isFalling);
+            }
+        }
+    }
+    public bool IsFalling()
+    {
+        return isFalling;
     }
 }

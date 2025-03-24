@@ -39,7 +39,6 @@ public class Fire : MonoBehaviour
             }
         }
 
-        Debug.Log($"Fire collided with: {other.name}");
         // Handle player collision logic
         if (other.CompareTag("Player"))
         {
@@ -48,6 +47,15 @@ public class Fire : MonoBehaviour
             {
                 Debug.Log("Player hit by fire!");
                 playerComponent.Die();
+            }
+        }
+
+        if (other.CompareTag("Bomb"))
+        {
+            var bombComponent = other.GetComponent<Bomb>();
+            if (bombComponent != null)
+            {
+                bombComponent.Explode();
             }
         }
     }

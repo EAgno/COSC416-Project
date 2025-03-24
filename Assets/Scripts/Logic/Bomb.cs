@@ -24,7 +24,8 @@ public class Bomb : MonoBehaviour
         Invoke(nameof(Explode), 2f);
     }
 
-    void Explode()
+
+    public void Explode()
     {
         // Destroy the bomb itself
         Destroy(gameObject);

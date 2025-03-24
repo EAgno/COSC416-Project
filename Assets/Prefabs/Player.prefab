@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -6367560908665664636, guid: d348dff3819df794186a80cb95777629, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -129,7 +129,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 76528e6fd072886478cc45759a62f435, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -175,7 +175,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.23}
-  m_Size: {x: 0.37, y: 0.54}
+  m_Size: {x: 0.5, y: 0.0001}
   m_Direction: 0
 --- !u!114 &1807551286650080040
 MonoBehaviour:
@@ -191,10 +191,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 0}
   moveSpeed: 5
-  jumpForce: 5
+  jumpForce: 7
+  maxJumps: 2
   bombPrefab: {fileID: 1148222379982045322, guid: 7d65e938455364db694eea42fcd1a45c, type: 3}
   bombAttacks: 3
-  explosionPower: 2
+  explosionPower: 5
   lives: 3
   invulnerabilityDuration: 2
   flickerInterval: 0.1
