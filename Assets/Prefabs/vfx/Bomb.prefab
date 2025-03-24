@@ -113,6 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePrefab: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 320
 --- !u!1 &4769738431188046751
 GameObject:
   m_ObjectHideFlags: 0

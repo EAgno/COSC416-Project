@@ -11,6 +11,9 @@ public class Bomb : MonoBehaviour
     [Header("Explosion Settings")]
     private int explosionPower = 1;
 
+    [Header("Layer Settings")]
+    [SerializeField] private LayerMask blockingLayers; // Assign in inspector to include ground, walls, etc.
+
     public void SetPlayerReference(PlayerController player)
     {
         playerController = player;
@@ -65,17 +68,22 @@ public class Bomb : MonoBehaviour
         {
             Vector2 newPosition = startPosition + direction * i;
 
-            // Use OverlapCircle to detect any colliders at this position
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, 0.2f);
+            // First check if there's a blocking object using a raycast
+            RaycastHit2D hit = Physics2D.Raycast(
+                startPosition + (direction * (i - 1)),
+                direction,
+                1.0f,
+                blockingLayers
+            );
 
-            // Stop spreading if we hit any collider
-            if (colliders.Length > 0)
+            if (hit.collider != null)
             {
-                // Spawn fire at the collision point before stopping
-                SpawnFire(newPosition);
+                // We hit something blocking, create fire at the hit point and stop
+                SpawnFire(hit.point);
                 break;
             }
 
+            // No blocking objects, spawn fire normally
             SpawnFire(newPosition);
         }
     }

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 199571180}
   - component: {fileID: 199571179}
   - component: {fileID: 199571181}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Breakables
   m_TagString: Breakable
   m_Icon: {fileID: 0}
@@ -19313,7 +19313,7 @@ GameObject:
   - component: {fileID: 2081250463}
   - component: {fileID: 2081250462}
   - component: {fileID: 2081250464}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Background
   m_TagString: Unbreakable
   m_Icon: {fileID: 0}
@@ -22235,6 +22235,10 @@ PrefabInstance:
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 788664410}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13
