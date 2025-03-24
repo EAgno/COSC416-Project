@@ -65,27 +65,14 @@ public class Bomb : MonoBehaviour
         {
             Vector2 newPosition = startPosition + direction * i;
 
-            // Use a more reliable detection method with overlap
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, 0.1f);
-            bool blocked = false;
-
-            // Check all colliders at this position
-            foreach (var collider in colliders)
+            // Check if there's an unbreakable wall at this position
+            RaycastHit2D hit = Physics2D.Raycast(newPosition, Vector2.zero);
+            if (hit.collider != null && hit.collider.CompareTag("Unbreakable"))
             {
-                if (collider.CompareTag("Unbreakable"))
-                {
-                    blocked = true;
-                    break;
-                }
-            }
-
-            if (blocked)
-            {
-                // Stop spreading fire in this direction
+                // Stop spreading fire if we hit an unbreakable wall
                 break;
             }
 
-            // Spawn fire if position is not blocked
             SpawnFire(newPosition);
         }
     }

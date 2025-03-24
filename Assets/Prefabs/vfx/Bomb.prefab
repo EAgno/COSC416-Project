@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePrefab: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
-  explosionDuration: 1
 --- !u!58 &2129533452142507486
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,7 +112,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &4769738431188046751
 GameObject:
   m_ObjectHideFlags: 0

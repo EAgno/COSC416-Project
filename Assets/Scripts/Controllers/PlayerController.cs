@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private bool isInvulnerable = false;
     private SpriteRenderer spriteRenderer;
 
+    [Header("Ground Detection")]
+    [SerializeField] private float groundCheckDistance = 0.1f;
+    [SerializeField] private LayerMask groundLayer; // Assign your ground/tilemap layer in the Inspector
+
     private Rigidbody2D rb;
     private Vector2 movement;
 
@@ -115,6 +119,9 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Abs(movement.x));  // Set Speed parameter
 
+        // Check ground status with raycast
+        CheckGroundStatus();
+
         // Check for new jump button press
         bool jumpButtonDown = movement.y > 0;
 
@@ -129,6 +136,41 @@ public class PlayerController : MonoBehaviour
 
         // Update jumping animation
         animator.SetBool("IsJumping", !isGrounded);
+    }
+
+    private void CheckGroundStatus()
+    {
+        // Cast rays from slightly inside the character's collider
+        Vector2 raycastOrigin = transform.position;
+        raycastOrigin.y -= GetComponent<Collider2D>().bounds.extents.y;
+
+        // Main center ray
+        bool hitGround = Physics2D.Raycast(raycastOrigin, Vector2.down, groundCheckDistance, groundLayer);
+
+        // Left and right foot rays for better detection
+        bool hitGroundLeft = Physics2D.Raycast(
+            new Vector2(raycastOrigin.x - 0.25f, raycastOrigin.y),
+            Vector2.down, groundCheckDistance, groundLayer);
+
+        bool hitGroundRight = Physics2D.Raycast(
+            new Vector2(raycastOrigin.x + 0.25f, raycastOrigin.y),
+            Vector2.down, groundCheckDistance, groundLayer);
+
+        // Debug rays to visualize in Scene view
+        Debug.DrawRay(raycastOrigin, Vector2.down * groundCheckDistance, Color.red);
+        Debug.DrawRay(new Vector2(raycastOrigin.x - 0.25f, raycastOrigin.y), Vector2.down * groundCheckDistance, Color.red);
+        Debug.DrawRay(new Vector2(raycastOrigin.x + 0.25f, raycastOrigin.y), Vector2.down * groundCheckDistance, Color.red);
+
+        // We're grounded if any ray hits
+        bool wasGrounded = isGrounded;
+        isGrounded = hitGround || hitGroundLeft || hitGroundRight;
+
+        // Reset jumps when landing
+        if (!wasGrounded && isGrounded)
+        {
+            jumpsRemaining = maxJumps;
+            animator.SetBool("IsDBJumping", false);
+        }
     }
 
     // this line actually moves the player in the FixedUpdate method
@@ -179,40 +221,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("IsDBJumping", false);
             }
 
-            isGrounded = false;
-        }
-    }
-
-    // Add ground detection
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check if there are any contact points
-        if (collision.contacts.Length > 0)
-        {
-            // Check if the collision is below the player
-            if (collision.contacts[0].normal.y > 0.7f)
-            {
-                isGrounded = true;
-                jumpsRemaining = maxJumps; // Reset available jumps
-                animator.SetBool("IsDBJumping", false);
-            }
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        // Check if there are any contact points
-        if (collision.contacts.Length > 0)
-        {
-            // Check if we're leaving ground contact
-            if (collision.contacts[0].normal.y > 0.7f)
-            {
-                isGrounded = false;
-            }
-        }
-        else
-        {
-            // If no contact points, assume we're leaving the ground
             isGrounded = false;
         }
     }
