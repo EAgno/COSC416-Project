@@ -14724,6 +14724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destroyEffect: {fileID: 949849378360093451, guid: c941a4287b9778e4fa22eca12e0e3055, type: 3}
   destroyEffectDuration: 1
+  fireDuration: 0.7
 --- !u!50 &-6973175638857803777
 Rigidbody2D:
   serializedVersion: 5

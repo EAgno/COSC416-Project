@@ -38,12 +38,32 @@ public class Fire : MonoBehaviour
         // Handle Tilemap collisions
         if (other.CompareTag("Breakable"))
         {
+
             Tilemap tilemap = other.GetComponent<Tilemap>();
             if (tilemap != null)
             {
-                // Get the contact point from the collision
-                Vector3 hitPosition = other.ClosestPoint(transform.position);
+                // Use multiple points to better detect collision with tilemap
+                Vector3 hitPosition = transform.position;
                 Vector3Int cellPosition = tilemap.WorldToCell(hitPosition);
+
+                // If nothing found at center position, check a small radius around fire
+                if (!tilemap.HasTile(cellPosition))
+                {
+                    // Check nearby positions in a small box pattern
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for (int y = -1; y <= 1; y++)
+                        {
+                            Vector3Int checkPosition = cellPosition + new Vector3Int(x, y, 0);
+                            if (tilemap.HasTile(checkPosition))
+                            {
+                                cellPosition = checkPosition;
+                                hitPosition = tilemap.GetCellCenterWorld(cellPosition);
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 // Only clear the tile if it exists at that position
                 if (tilemap.HasTile(cellPosition))
@@ -55,12 +75,13 @@ public class Fire : MonoBehaviour
                 return; // Exit to avoid processing the entire Tilemap further
             }
 
-            // Handle non-tilemap breakable objects
-            Breakable breakable = other.GetComponent<Breakable>();
-            if (breakable != null)
-            {
-                breakable.DestroyBlock();
-            }
+
+            // // Handle non-tilemap breakable objects
+            // Breakable breakable = other.GetComponent<Breakable>();
+            // if (breakable != null)
+            // {
+            //     breakable.DestroyBlock();
+            // }
         }
 
         // Handle player collision logic
@@ -69,7 +90,6 @@ public class Fire : MonoBehaviour
             var playerComponent = other.GetComponent<PlayerController>();
             if (playerComponent != null)
             {
-                Debug.Log("Player hit by fire!");
                 playerComponent.Die();
             }
         }
