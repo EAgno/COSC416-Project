@@ -236,22 +236,13 @@ public class PlayerController : MonoBehaviour
 #endif
     }
 
-    // Rounds position to the nearest integer grid point
-    // so that we can place bombs in the 1x1 grids
-    Vector2 RoundToGrid(Vector2 position)
-    {
-        Vector2 roundedPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
-        return roundedPos;
-    }
 
     private void OnAttack()
     {
         // if the player has bombs left, and the bomb prefab is assigned
         if (bombPrefab != null && bombAttacks > 0)
         {
-            // Spawn the bomb at the player's position
-            Vector2 roundedPosition = RoundToGrid(transform.position);
-            GameObject bombInstance = Instantiate(bombPrefab, roundedPosition, Quaternion.identity);
+            GameObject bombInstance = Instantiate(bombPrefab, transform.position, Quaternion.identity);
 
             // Get the Bomb script from the spawned bomb
             Bomb bombScript = bombInstance.GetComponent<Bomb>();
