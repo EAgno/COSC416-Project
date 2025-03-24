@@ -8,6 +8,10 @@ TagManager:
   - Fire
   - Unbreakable
   - Bomb
+  - ExtraBomb
+  - ExtraSpeed
+  - ExtraLife
+  - ExtraPower
   layers:
   - Default
   - TransparentFX

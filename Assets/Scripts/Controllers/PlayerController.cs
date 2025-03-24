@@ -45,6 +45,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.02f); // Size of ground check box
     [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f); // Offset from center (adjust based on your collider)
 
+    public float getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(float moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
     public int getLives()
     {
         return lives;

@@ -11,6 +11,8 @@ public class Fire : MonoBehaviour
     [Header("Fire Settings")]
     [SerializeField] private float fireDuration = 0.7f; // How long the fire exists
 
+    [Header("Item Settings")]
+    [SerializeField] private GameObject[] itemPrefabs;
     private void Start()
     {
         // Schedule the fire to destroy itself
@@ -76,12 +78,12 @@ public class Fire : MonoBehaviour
             }
 
 
-            // // Handle non-tilemap breakable objects
-            // Breakable breakable = other.GetComponent<Breakable>();
-            // if (breakable != null)
-            // {
-            //     breakable.DestroyBlock();
-            // }
+            // Handle non-tilemap breakable objects
+            Breakable breakable = other.GetComponent<Breakable>();
+            if (breakable != null)
+            {
+                breakable.DestroyBlock();
+            }
         }
 
         // Handle player collision logic
@@ -100,6 +102,31 @@ public class Fire : MonoBehaviour
         {
             GameObject destroyEffect = Instantiate(_destroyEffect, position, Quaternion.identity);
             Destroy(destroyEffect, duration);
+            SpawnItem(position);
         }
+    }
+
+    public void SpawnItem(Vector2 position)
+    {
+        // Early exit if no item prefabs are defined
+        if (itemPrefabs == null || itemPrefabs.Length == 0)
+        {
+            return;
+        }
+
+        // Filter out null prefabs
+        var validItems = System.Array.FindAll(itemPrefabs, item => item != null);
+
+        if (validItems.Length == 0)
+        {
+            return;
+        }
+
+        // Select a random item from the valid items
+        int randomIndex = Random.Range(0, validItems.Length);
+        GameObject selectedItem = validItems[randomIndex];
+
+        // Spawn the selected item
+        GameObject spawnedItem = Instantiate(selectedItem, position, Quaternion.identity);
     }
 }
