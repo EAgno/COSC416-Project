@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePrefab: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
-  explosionDuration: 0.7
+  explosionDuration: 0.5
 --- !u!58 &2129533452142507486
 CircleCollider2D:
   m_ObjectHideFlags: 0

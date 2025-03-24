@@ -49,15 +49,6 @@ public class Fire : MonoBehaviour
                 playerComponent.Die();
             }
         }
-
-        if (other.CompareTag("Bomb"))
-        {
-            var bombComponent = other.GetComponent<Bomb>();
-            if (bombComponent != null)
-            {
-                bombComponent.Explode();
-            }
-        }
     }
     public void SpawnDestroyEffect(Vector2 position, float duration)
     {
