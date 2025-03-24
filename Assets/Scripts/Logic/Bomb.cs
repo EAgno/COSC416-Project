@@ -9,8 +9,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private GameObject firePrefab;
 
     [Header("Explosion Settings")]
-    [SerializeField] private float explosionDuration = 0.7f;
-    private int explosionPower = 1; // Default power
+    private int explosionPower = 1;
 
     public void SetPlayerReference(PlayerController player)
     {
@@ -34,7 +33,7 @@ public class Bomb : MonoBehaviour
         // if player power is 1, spawn one tile in each direction.
         if (firePrefab != null)
         {
-            SpawnFire(transform.position, explosionDuration);
+            SpawnFire(transform.position);
 
             Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
@@ -54,10 +53,9 @@ public class Bomb : MonoBehaviour
     }
 
     // spawn the fire based on position of the bomb
-    void SpawnFire(Vector2 position, float explosionDuration)
+    void SpawnFire(Vector2 position)
     {
         GameObject fire = Instantiate(firePrefab, position, Quaternion.identity);
-        Destroy(fire, explosionDuration);
     }
 
     // spread the fire based on position of the bomb based on power.
@@ -67,15 +65,28 @@ public class Bomb : MonoBehaviour
         {
             Vector2 newPosition = startPosition + direction * i;
 
-            // Check if there's an unbreakable wall at this position
-            RaycastHit2D hit = Physics2D.Raycast(newPosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.CompareTag("Unbreakable"))
+            // Use a more reliable detection method with overlap
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, 0.1f);
+            bool blocked = false;
+
+            // Check all colliders at this position
+            foreach (var collider in colliders)
             {
-                // Stop spreading fire if we hit an unbreakable wall
+                if (collider.CompareTag("Unbreakable"))
+                {
+                    blocked = true;
+                    break;
+                }
+            }
+
+            if (blocked)
+            {
+                // Stop spreading fire in this direction
                 break;
             }
 
-            SpawnFire(newPosition, explosionDuration + (i * 0.2f));
+            // Spawn fire if position is not blocked
+            SpawnFire(newPosition);
         }
     }
 }

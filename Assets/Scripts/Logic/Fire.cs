@@ -6,8 +6,32 @@ public class Fire : MonoBehaviour
     [Header("Destroy Effect")]
     [Tooltip("The effect that will be spawned when the block is destroyed")]
     [SerializeField] private GameObject _destroyEffect;
-    [SerializeField] private int destroyEffectDuration = 1;
+    [SerializeField] private float destroyEffectDuration = 1;
 
+    [Header("Fire Settings")]
+    [SerializeField] private float fireDuration = 0.7f; // How long the fire exists
+
+    private void Start()
+    {
+        // Schedule the fire to destroy itself
+        Invoke(nameof(DisableCollider), fireDuration * 0.5f); // Disable collider slightly before destroying
+        Invoke(nameof(DestroyFire), fireDuration);
+    }
+
+    private void DisableCollider()
+    {
+        // Disable the collider before the visual effect disappears
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+    }
+
+    private void DestroyFire()
+    {
+        Destroy(gameObject);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
