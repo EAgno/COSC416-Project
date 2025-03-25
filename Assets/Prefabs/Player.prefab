@@ -242,7 +242,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   groundCheckDistance: 0.4
-  groundCheckSize: {x: 0.7, y: 0.02}
+  groundCheckSize: {x: 1.1, y: 0.02}
   groundCheckOffset: {x: 0, y: -0.5}
 --- !u!1001 &4660346321645409364
 PrefabInstance:
@@ -424,3 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d345d419045741498ad67ad92bf25c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fireEffect: {fileID: 0}
+  _fireDuration: 2
+  _fireSpeed: 5
+  _fireSpawnOffset: 1
+  _fireDirections: 4
+  _spreadWidth: 3
+  _spreadLength: 3
+  _staggerDelay: 0.1
