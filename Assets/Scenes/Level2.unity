@@ -518,7 +518,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 314085953096672203, guid: bc92a98a12ef7cf42b2340a6d2c6aecd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.11
+      value: -10.75
       objectReference: {fileID: 0}
     - target: {fileID: 314085953096672203, guid: bc92a98a12ef7cf42b2340a6d2c6aecd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22457,6 +22457,10 @@ PrefabInstance:
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 788664410}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: flameThrowerAmmo
+      value: 2034
+      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.49
@@ -22497,15 +22501,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4873635726129586297, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: bulletSpawnPoint
+      value: 
+      objectReference: {fileID: 1335722111368473647}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _fireSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _fireEffect
+      value: 
+      objectReference: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _spreadWidth
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _spreadLength
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _fireDirections
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: _fireSpawnOffset
+      value: 1.15
+      objectReference: {fileID: 0}
     - target: {fileID: 7514972561782197024, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5295039271273892785, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+    - {fileID: 629788690669932767, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+--- !u!4 &1335722111368473647 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5187610527741364389, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+  m_PrefabInstance: {fileID: 1335722111368473646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1815508128357849544
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22573,11 +22612,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6309915098137379, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.95
+      value: -16.38
       objectReference: {fileID: 0}
     - target: {fileID: 6309915098137379, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.64
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 6309915098137379, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
       propertyPath: m_LocalPosition.z
