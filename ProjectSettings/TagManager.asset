@@ -7,6 +7,13 @@ TagManager:
   - Breakable
   - Fire
   - Unbreakable
+  - Bomb
+  - ExtraBomb
+  - ExtraSpeed
+  - ExtraLife
+  - ExtraPower
+  - FlameThrower
+  - Glock17
   layers:
   - Default
   - TransparentFX
@@ -14,9 +21,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - BG
+  - Breakables
   - 
   - 
   - 

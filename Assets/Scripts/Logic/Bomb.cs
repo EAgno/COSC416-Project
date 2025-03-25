@@ -9,8 +9,10 @@ public class Bomb : MonoBehaviour
     [SerializeField] private GameObject firePrefab;
 
     [Header("Explosion Settings")]
-    [SerializeField] private float explosionDuration = 0.7f;
-    private int explosionPower = 1; // Default power
+    private int explosionPower = 1;
+
+    [Header("Layer Settings")]
+    [SerializeField] private LayerMask blockingLayers; // Assign in inspector to include ground, walls, etc.
 
     public void SetPlayerReference(PlayerController player)
     {
@@ -24,7 +26,8 @@ public class Bomb : MonoBehaviour
         Invoke(nameof(Explode), 2f);
     }
 
-    void Explode()
+
+    public void Explode()
     {
         // Destroy the bomb itself
         Destroy(gameObject);
@@ -33,7 +36,7 @@ public class Bomb : MonoBehaviour
         // if player power is 1, spawn one tile in each direction.
         if (firePrefab != null)
         {
-            SpawnFire(transform.position, explosionDuration);
+            SpawnFire(transform.position);
 
             Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
@@ -53,10 +56,9 @@ public class Bomb : MonoBehaviour
     }
 
     // spawn the fire based on position of the bomb
-    void SpawnFire(Vector2 position, float explosionDuration)
+    void SpawnFire(Vector2 position)
     {
         GameObject fire = Instantiate(firePrefab, position, Quaternion.identity);
-        Destroy(fire, explosionDuration);
     }
 
     // spread the fire based on position of the bomb based on power.
@@ -66,15 +68,23 @@ public class Bomb : MonoBehaviour
         {
             Vector2 newPosition = startPosition + direction * i;
 
-            // Check if there's an unbreakable wall at this position
-            RaycastHit2D hit = Physics2D.Raycast(newPosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.CompareTag("Unbreakable"))
+            // First check if there's a blocking object using a raycast
+            RaycastHit2D hit = Physics2D.Raycast(
+                startPosition + (direction * (i - 1)),
+                direction,
+                1.0f,
+                blockingLayers
+            );
+
+            if (hit.collider != null)
             {
-                // Stop spreading fire if we hit an unbreakable wall
+                // We hit something blocking, create fire at the hit point and stop
+                SpawnFire(hit.point);
                 break;
             }
 
-            SpawnFire(newPosition, explosionDuration + (i * 0.2f));
+            // No blocking objects, spawn fire normally
+            SpawnFire(newPosition);
         }
     }
 }
