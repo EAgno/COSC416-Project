@@ -196,6 +196,12 @@ MonoBehaviour:
   jumpForce: 7
   maxJumps: 1
   bombPrefab: {fileID: 1148222379982045322, guid: 7d65e938455364db694eea42fcd1a45c, type: 3}
+  flameThrowerAmmo: 100
+  flameThrowerAmmoPerShot: 5
+  glock17Ammo: 30
+  glock17AmmoPerShot: 1
+  flamethrowerFireRate: 0.1
+  glock17FireRate: 0.2
   bombAttacks: 3
   explosionPower: 2
   lives: 5

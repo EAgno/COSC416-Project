@@ -19,6 +19,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bombPrefab;
     private enum WeaponType { None, FlameThrower, Glock17 }
     private WeaponType currentWeapon = WeaponType.None;
+    [SerializeField] private int flameThrowerAmmo = 100;
+    [SerializeField] private int flameThrowerAmmoPerShot = 1;
+    [SerializeField] private int glock17Ammo = 30;
+    [SerializeField] private int glock17AmmoPerShot = 1;
+    [SerializeField] private float flamethrowerFireRate = 0.1f;
+    [SerializeField] private float glock17FireRate = 0.2f;
+    private float lastFireTime = 0f;
+
+    // Track which weapons have been collected
+    private bool hasFlameThrower = false;
+    private bool hasGlock17 = false;
 
     // Add weapon switching cooldown to prevent rapid toggling
     private float weaponSwitchCooldown = 0.2f;
@@ -126,8 +137,12 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         jumpsRemaining = maxJumps; // Initialize jumps
 
-        // Subscribe to the OnAttack event
-        inputManager.OnAttack.AddListener(OnAttack);
+        // Ensure all weapons are disabled at start
+        DeactivateAllWeapons();
+
+        // Subscribe to the attack events
+        inputManager.OnAttackPressed.AddListener(OnAttackPressed);
+        inputManager.OnAttackHeld.AddListener(OnAttackHeld);
     }
 
     void Update()
@@ -162,6 +177,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastWeaponSwitchTime + weaponSwitchCooldown)
         {
             lastWeaponSwitchTime = Time.time;
+
             CycleToNextWeapon();
         }
     }
@@ -172,28 +188,28 @@ public class PlayerController : MonoBehaviour
         switch (currentWeapon)
         {
             case WeaponType.None:
-                // Check if FlameThrower exists as a child
-                if (transform.Find("FlameThrower") != null)
+                // Only switch to FlameThrower if collected and has ammo
+                if (hasFlameThrower && flameThrowerAmmo > 0)
                 {
                     SetFlameThrowerActive(true);
                 }
-                // If not, check if Glock17 exists
-                else if (transform.Find("Glock17") != null)
+                // If no FlameThrower but has Glock17 with ammo, switch to that
+                else if (hasGlock17 && glock17Ammo > 0)
                 {
                     SetGlock17Active(true);
                 }
-                // If no weapons exist, stay at None
+                // If no weapons collected or all out of ammo, stay at None
                 break;
 
             case WeaponType.FlameThrower:
-                // Check if Glock17 exists as a child
-                if (transform.Find("Glock17") != null)
+                // Only switch to Glock17 if collected and has ammo
+                if (hasGlock17 && glock17Ammo > 0)
                 {
                     SetGlock17Active(true);
                 }
                 else
                 {
-                    // No Glock17, return to None
+                    // No Glock17 or out of ammo, return to None
                     DeactivateAllWeapons();
                 }
                 break;
@@ -227,6 +243,9 @@ public class PlayerController : MonoBehaviour
         CheckFallingState();
     }
 
+
+    private bool lastFacingLeft = false;  // Track the last direction faced
+
     private void Move()
     {
         if (rb != null)
@@ -236,15 +255,55 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontalMovement, rb.linearVelocity.y);
             if (spriteRenderer != null)
             {
-                if (horizontalMovement > 0)
+                // Only update direction when there is significant movement
+                if (Mathf.Abs(horizontalMovement) > 0.1f)
                 {
-                    spriteRenderer.flipX = false;  // Face right
+                    if (horizontalMovement > 0)
+                    {
+                        spriteRenderer.flipX = false;  // Face right
+                        lastFacingLeft = false;
+                    }
+                    else if (horizontalMovement < 0)
+                    {
+                        spriteRenderer.flipX = true;   // Face left
+                        lastFacingLeft = true;
+                    }
                 }
-                else if (horizontalMovement < 0)
-                {
-                    spriteRenderer.flipX = true;   // Face left
-                }
+
+                // Always use lastFacingLeft to flip weapon sprites
+                FlipWeaponSprites(lastFacingLeft);
             }
+        }
+    }
+
+    private void FlipWeaponSprites(bool facingLeft)
+    {
+        // Handle Glock17 and its nested sprites by flipping the entire parent
+        Transform glockTransform = transform.Find("Glock17");
+        if (glockTransform != null && glockTransform.gameObject.activeSelf)
+        {
+            Vector3 scale = glockTransform.localScale;
+            scale.x = facingLeft ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+            glockTransform.localScale = scale;
+
+            // You may need to adjust position offset when flipping
+            Vector3 position = glockTransform.localPosition;
+            position.x = facingLeft ? -Mathf.Abs(position.x) : Mathf.Abs(position.x);
+            glockTransform.localPosition = position;
+        }
+
+        // Do the same for FlameThrower
+        Transform flameThrowerTransform = transform.Find("FlameThrower");
+        if (flameThrowerTransform != null && flameThrowerTransform.gameObject.activeSelf)
+        {
+            Vector3 scale = flameThrowerTransform.localScale;
+            scale.x = facingLeft ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+            flameThrowerTransform.localScale = scale;
+
+            // You may need to adjust position offset when flipping
+            Vector3 position = flameThrowerTransform.localPosition;
+            position.x = facingLeft ? -Mathf.Abs(position.x) : Mathf.Abs(position.x);
+            flameThrowerTransform.localPosition = position;
         }
     }
 
@@ -306,23 +365,77 @@ public class PlayerController : MonoBehaviour
 #endif
     }
 
-    private void OnAttack()
+    // New method for when attack button is first pressed - all weapons use this
+    private void OnAttackPressed()
     {
+        // For all weapon types, we'll process the initial attack
+        ProcessAttack();
+    }
+
+    // New method for when attack button is held - only automatic weapons use this
+    private void OnAttackHeld()
+    {
+        // Only process continuous attacks for automatic weapons (not for bombs)
+        if (currentWeapon != WeaponType.None)
+        {
+            ProcessAttack();
+        }
+        // For bombs (WeaponType.None), we do nothing when space is held
+    }
+
+    // Renamed from OnAttack to ProcessAttack - handles the actual attack logic
+    private void ProcessAttack()
+    {
+        if (Time.time < lastFireTime + GetCurrentWeaponFireRate())
+            return;
+
         // Handle different attack types based on current weapon
         switch (currentWeapon)
         {
             case WeaponType.None:
-                // Use bomb attack
+                // Use bomb attack - one bomb at a time
                 UseDefaultBombAttack();
                 Debug.Log("Player used bomb attack");
                 break;
 
             case WeaponType.FlameThrower:
-                Debug.Log("Player used FlameThrower attack");
+                if (flameThrowerAmmo >= flameThrowerAmmoPerShot)
+                {
+                    // Fire flamethrower
+                    flameThrowerAmmo -= flameThrowerAmmoPerShot;
+                    lastFireTime = Time.time;
+                    Debug.Log("Player used FlameThrower attack. Ammo remaining: " + flameThrowerAmmo);
+
+                    // Here you would trigger the actual flamethrower effect
+
+                    // If out of ammo, switch back to default weapon
+                    if (flameThrowerAmmo <= 0)
+                    {
+                        Debug.Log("FlameThrower out of ammo!");
+                        hasFlameThrower = false; // Mark as not collected anymore
+                        DeactivateAllWeapons();
+                    }
+                }
                 break;
 
             case WeaponType.Glock17:
-                Debug.Log("Player used Glock17 attack");
+                if (glock17Ammo >= glock17AmmoPerShot)
+                {
+                    // Fire glock
+                    glock17Ammo -= glock17AmmoPerShot;
+                    lastFireTime = Time.time;
+                    Debug.Log("Player used Glock17 attack. Ammo remaining: " + glock17Ammo);
+
+                    // Here you would trigger the actual gun firing effect
+
+                    // If out of ammo, switch back to default weapon
+                    if (glock17Ammo <= 0)
+                    {
+                        Debug.Log("Glock17 out of ammo!");
+                        hasGlock17 = false; // Mark as not collected anymore
+                        DeactivateAllWeapons();
+                    }
+                }
                 break;
         }
     }
@@ -346,12 +459,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Add this helper method to get the fire rate for the current weapon
+    private float GetCurrentWeaponFireRate()
+    {
+        switch (currentWeapon)
+        {
+            case WeaponType.FlameThrower:
+                return flamethrowerFireRate;
+            case WeaponType.Glock17:
+                return glock17FireRate;
+            default:
+                return 0f; // No cooldown for bombs
+        }
+    }
+
     // unsubscribe when the object is destroyed
     void OnDestroy()
     {
         if (inputManager != null)
         {
-            inputManager.OnAttack.RemoveListener(OnAttack);
+            inputManager.OnAttackPressed.RemoveListener(OnAttackPressed);
+            inputManager.OnAttackHeld.RemoveListener(OnAttackHeld);
         }
     }
 
@@ -388,8 +516,15 @@ public class PlayerController : MonoBehaviour
         return isFalling;
     }
 
+    // Modify the weapon activation methods to set the fixed ammo when picking up weapons
     public void SetFlameThrowerActive(bool isActive)
     {
+        // Mark as collected
+        hasFlameThrower = true;
+
+        // Set fixed ammo amount when picking up the flamethrower
+        flameThrowerAmmo = 100;
+
         if (isActive)
         {
             // Deactivate any other weapon first
@@ -408,6 +543,12 @@ public class PlayerController : MonoBehaviour
 
     public void SetGlock17Active(bool isActive)
     {
+        // Mark as collected
+        hasGlock17 = true;
+
+        // Set fixed ammo amount when picking up the Glock17
+        glock17Ammo = 30;
+
         if (isActive)
         {
             // Deactivate any other weapon first
@@ -442,5 +583,16 @@ public class PlayerController : MonoBehaviour
 
         // Reset weapon type
         currentWeapon = WeaponType.None;
+    }
+
+    // Add these public methods to allow adding ammo
+    public bool HasFlameThrower()
+    {
+        return hasFlameThrower;
+    }
+
+    public bool HasGlock17()
+    {
+        return hasGlock17;
     }
 }
