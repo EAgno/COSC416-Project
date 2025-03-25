@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: -7830490442086454100}
   - component: {fileID: 4669320508195510478}
   - component: {fileID: -769577247041912550}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: L_Mini_M4_ShellEjecting
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,3 +200,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destroyEffect: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
   _destroyEffectDuration: 1
+  _playerIgnoreTime: 0.1

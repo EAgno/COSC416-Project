@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [Header("Bullet Settings")]
     [SerializeField] private GameObject _destroyEffect;
-    [SerializeField] private float _destroyEffectDuration = 0.5f;
+    [SerializeField] private float _destroyEffectDuration = 1;
     [SerializeField] private float _playerIgnoreTime = 0.1f; // Time to ignore player collisions
 
     private GameObject _player;
@@ -14,9 +14,6 @@ public class Bullet : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _spawnTime = Time.time;
-
-        // Ignore collisions between bullets
-        Physics2D.IgnoreLayerCollision(gameObject.layer, gameObject.layer);
     }
 
     // if it collides with anything at all,
@@ -25,6 +22,12 @@ public class Bullet : MonoBehaviour
     {
         // Ignore collisions with the player for a short time after spawning
         if (other.gameObject == _player && Time.time < _spawnTime + _playerIgnoreTime)
+        {
+            return;
+        }
+
+        // Ignore collisions with other bullets and destroy effects
+        if (other.CompareTag("Bullet") || other.CompareTag("Fire"))
         {
             return;
         }
@@ -38,6 +41,8 @@ public class Bullet : MonoBehaviour
         if (_destroyEffect != null)
         {
             GameObject destroyEffect = Instantiate(_destroyEffect, transform.position, Quaternion.identity);
+            // Tag the destroy effect so bullets don't collide with it
+            destroyEffect.tag = "Fire";
             Destroy(destroyEffect, _destroyEffectDuration);
         }
 
