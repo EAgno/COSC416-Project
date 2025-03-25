@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-
 public class InputManager : MonoBehaviour
 {
     public UnityEvent<Vector2> OnMove = new();
-    public UnityEvent OnAttack = new();
-
-
-
+    public UnityEvent OnAttackPressed = new(); // Renamed from OnAttack (key first pressed)
+    public UnityEvent OnAttackHeld = new();    // New event for continuous attack (key held)
+    public UnityEvent OnAttackReleased = new(); // Optional: for when attack button is released
 
     public Vector2 GetMovementInput()
     {
@@ -29,9 +27,21 @@ public class InputManager : MonoBehaviour
         {
             OnMove?.Invoke(input);
         }
+
+        // Handle different attack input states
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            OnAttack?.Invoke();
+            OnAttackPressed?.Invoke();
+        }
+
+        if (Input.GetKey(KeyCode.Space)) // Check if key is being held
+        {
+            OnAttackHeld?.Invoke();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space)) // Optional: detect when key is released
+        {
+            OnAttackReleased?.Invoke();
         }
     }
 }

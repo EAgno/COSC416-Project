@@ -140,8 +140,9 @@ public class PlayerController : MonoBehaviour
         // Ensure all weapons are disabled at start
         DeactivateAllWeapons();
 
-        // Subscribe to the OnAttack event
-        inputManager.OnAttack.AddListener(OnAttack);
+        // Subscribe to the attack events
+        inputManager.OnAttackPressed.AddListener(OnAttackPressed);
+        inputManager.OnAttackHeld.AddListener(OnAttackHeld);
     }
 
     void Update()
@@ -181,7 +182,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Modify CycleToNextWeapon method to only cycle to weapons that have ammo
     private void CycleToNextWeapon()
     {
         // Cycle to the next weapon type
@@ -365,8 +365,26 @@ public class PlayerController : MonoBehaviour
 #endif
     }
 
-    // Modify the OnAttack method to use ammo
-    private void OnAttack()
+    // New method for when attack button is first pressed - all weapons use this
+    private void OnAttackPressed()
+    {
+        // For all weapon types, we'll process the initial attack
+        ProcessAttack();
+    }
+
+    // New method for when attack button is held - only automatic weapons use this
+    private void OnAttackHeld()
+    {
+        // Only process continuous attacks for automatic weapons (not for bombs)
+        if (currentWeapon != WeaponType.None)
+        {
+            ProcessAttack();
+        }
+        // For bombs (WeaponType.None), we do nothing when space is held
+    }
+
+    // Renamed from OnAttack to ProcessAttack - handles the actual attack logic
+    private void ProcessAttack()
     {
         if (Time.time < lastFireTime + GetCurrentWeaponFireRate())
             return;
@@ -375,7 +393,7 @@ public class PlayerController : MonoBehaviour
         switch (currentWeapon)
         {
             case WeaponType.None:
-                // Use bomb attack
+                // Use bomb attack - one bomb at a time
                 UseDefaultBombAttack();
                 Debug.Log("Player used bomb attack");
                 break;
@@ -394,7 +412,7 @@ public class PlayerController : MonoBehaviour
                     if (flameThrowerAmmo <= 0)
                     {
                         Debug.Log("FlameThrower out of ammo!");
-                        hasFlameThrower = false;
+                        hasFlameThrower = false; // Mark as not collected anymore
                         DeactivateAllWeapons();
                     }
                 }
@@ -414,7 +432,7 @@ public class PlayerController : MonoBehaviour
                     if (glock17Ammo <= 0)
                     {
                         Debug.Log("Glock17 out of ammo!");
-                        hasGlock17 = false;
+                        hasGlock17 = false; // Mark as not collected anymore
                         DeactivateAllWeapons();
                     }
                 }
@@ -460,7 +478,8 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager != null)
         {
-            inputManager.OnAttack.RemoveListener(OnAttack);
+            inputManager.OnAttackPressed.RemoveListener(OnAttackPressed);
+            inputManager.OnAttackHeld.RemoveListener(OnAttackHeld);
         }
     }
 
@@ -497,13 +516,13 @@ public class PlayerController : MonoBehaviour
         return isFalling;
     }
 
-    // Modify the weapon activation methods to reset ammo when picking up a weapon
+    // Modify the weapon activation methods to set the fixed ammo when picking up weapons
     public void SetFlameThrowerActive(bool isActive)
     {
         // Mark as collected
         hasFlameThrower = true;
 
-        // Reset ammo when picking up a flamethrower
+        // Set fixed ammo amount when picking up the flamethrower
         flameThrowerAmmo = 100;
 
         if (isActive)
@@ -522,13 +541,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Modify the weapon activation methods to reset ammo when picking up a weapon
     public void SetGlock17Active(bool isActive)
     {
         // Mark as collected
         hasGlock17 = true;
 
-        // Reset ammo when picking up a Glock17
+        // Set fixed ammo amount when picking up the Glock17
         glock17Ammo = 30;
 
         if (isActive)
@@ -576,29 +594,5 @@ public class PlayerController : MonoBehaviour
     public bool HasGlock17()
     {
         return hasGlock17;
-    }
-
-    public void AddFlameThrowerAmmo(int amount)
-    {
-        flameThrowerAmmo += amount;
-        Debug.Log("Added " + amount + " FlameThrower ammo. New total: " + flameThrowerAmmo);
-
-        // If we have the weapon but it was disabled due to lack of ammo, re-enable it
-        if (hasFlameThrower && currentWeapon == WeaponType.None)
-        {
-            SetFlameThrowerActive(true);
-        }
-    }
-
-    public void AddGlock17Ammo(int amount)
-    {
-        glock17Ammo += amount;
-        Debug.Log("Added " + amount + " Glock17 ammo. New total: " + glock17Ammo);
-
-        // If we have the weapon but it was disabled due to lack of ammo, re-enable it
-        if (hasGlock17 && currentWeapon == WeaponType.None)
-        {
-            SetGlock17Active(true);
-        }
     }
 }
