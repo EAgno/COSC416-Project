@@ -184,7 +184,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.76, y: 0.42}
+  m_Size: {x: 0.4, y: 0.13}
   m_EdgeRadius: 0
 --- !u!114 &-769577247041912550
 MonoBehaviour:
@@ -198,3 +198,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89f78dc939de5240af13fadb65bb300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destroyEffect: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
+  _destroyEffectDuration: 1

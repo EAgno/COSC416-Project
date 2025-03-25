@@ -5,7 +5,7 @@ public class Glock : MonoBehaviour
     [Header("Glock Settings")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private float bulletSpeed = 10f;
+    [SerializeField] private float bulletSpeed = 15f;
 
     public void Shoot()
     {
