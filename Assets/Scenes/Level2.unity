@@ -22611,9 +22611,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2951333386121326790, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4233321637086962244, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
       propertyPath: m_Name
       value: G17Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774330141450346706, guid: f8e37f64054c69d42a78ad4e1a30526b, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

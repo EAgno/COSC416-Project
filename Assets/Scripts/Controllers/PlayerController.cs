@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     private enum WeaponType { None, FlameThrower, Glock17 }
     private WeaponType currentWeapon = WeaponType.None;
 
+    // Track which weapons have been collected
+    private bool hasFlameThrower = false;
+    private bool hasGlock17 = false;
+
     // Add weapon switching cooldown to prevent rapid toggling
     private float weaponSwitchCooldown = 0.2f;
     private float lastWeaponSwitchTime = 0f;
@@ -126,6 +130,9 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         jumpsRemaining = maxJumps; // Initialize jumps
 
+        // Ensure all weapons are disabled at start
+        DeactivateAllWeapons();
+
         // Subscribe to the OnAttack event
         inputManager.OnAttack.AddListener(OnAttack);
     }
@@ -162,6 +169,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > lastWeaponSwitchTime + weaponSwitchCooldown)
         {
             lastWeaponSwitchTime = Time.time;
+
             CycleToNextWeapon();
         }
     }
@@ -172,22 +180,22 @@ public class PlayerController : MonoBehaviour
         switch (currentWeapon)
         {
             case WeaponType.None:
-                // Check if FlameThrower exists as a child
-                if (transform.Find("FlameThrower") != null)
+                // Only switch to FlameThrower if collected
+                if (hasFlameThrower)
                 {
                     SetFlameThrowerActive(true);
                 }
-                // If not, check if Glock17 exists
-                else if (transform.Find("Glock17") != null)
+                // If no FlameThrower but has Glock17, switch to that
+                else if (hasGlock17)
                 {
                     SetGlock17Active(true);
                 }
-                // If no weapons exist, stay at None
+                // If no weapons collected, stay at None
                 break;
 
             case WeaponType.FlameThrower:
-                // Check if Glock17 exists as a child
-                if (transform.Find("Glock17") != null)
+                // Only switch to Glock17 if collected
+                if (hasGlock17)
                 {
                     SetGlock17Active(true);
                 }
@@ -390,6 +398,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetFlameThrowerActive(bool isActive)
     {
+        // Mark as collected
+        hasFlameThrower = true;
+
         if (isActive)
         {
             // Deactivate any other weapon first
@@ -408,6 +419,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetGlock17Active(bool isActive)
     {
+        // Mark as collected
+        hasGlock17 = true;
+
         if (isActive)
         {
             // Deactivate any other weapon first
