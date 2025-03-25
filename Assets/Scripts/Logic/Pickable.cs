@@ -68,6 +68,12 @@ public class Pickable : MonoBehaviour
                 case "ExtraPower":
                     player.setExplosionPower(player.getExplosionPower() + 1);
                     break;
+                case "FlameThrower":
+                    player.SetFlameThrowerActive(true);
+                    break;
+                case "Glock17":
+                    player.SetGlock17Active(true);
+                    break;
             }
 
             Destroy(gameObject);

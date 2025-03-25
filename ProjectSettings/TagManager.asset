@@ -12,6 +12,8 @@ TagManager:
   - ExtraSpeed
   - ExtraLife
   - ExtraPower
+  - FlameThrower
+  - Glock17
   layers:
   - Default
   - TransparentFX
