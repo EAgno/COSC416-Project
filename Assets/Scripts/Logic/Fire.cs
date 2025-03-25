@@ -95,6 +95,8 @@ public class Fire : MonoBehaviour
                 playerComponent.Die();
             }
         }
+
+
     }
     public void SpawnDestroyEffect(Vector2 position, float duration)
     {

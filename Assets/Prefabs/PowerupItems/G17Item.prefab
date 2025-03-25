@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8287401845715711437}
   - component: {fileID: 2860990909148556642}
   - component: {fileID: 4183319258301307157}
+  - component: {fileID: 1471376264736805316}
   m_Layer: 0
   m_Name: G17Item
   m_TagString: Glock17
@@ -98,6 +99,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1471376264736805316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5308452437927580842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 909e15e15aa049e46b04f03e153d53de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levitationHeight: 0.2
+  levitationSpeed: 2
+  immunityDuration: 1
 --- !u!1 &5311390786997370266
 GameObject:
   m_ObjectHideFlags: 0

@@ -406,7 +406,10 @@ public class PlayerController : MonoBehaviour
                     lastFireTime = Time.time;
                     Debug.Log("Player used FlameThrower attack. Ammo remaining: " + flameThrowerAmmo);
 
-                    // Here you would trigger the actual flamethrower effect
+                    // the FlameThrower script is attached to the FlameThrower prefab
+                    GameObject flameThrowerInstance = transform.Find("FlameThrower").gameObject;
+                    FlameThrower flameThrower = flameThrowerInstance.GetComponent<FlameThrower>();
+                    flameThrower.Shoot();
 
                     // If out of ammo, switch back to default weapon
                     if (flameThrowerAmmo <= 0)
@@ -426,7 +429,11 @@ public class PlayerController : MonoBehaviour
                     lastFireTime = Time.time;
                     Debug.Log("Player used Glock17 attack. Ammo remaining: " + glock17Ammo);
 
-                    // Here you would trigger the actual gun firing effect
+                    // the glock script is attached to the glock prefab
+                    GameObject glockInstance = transform.Find("Glock17").gameObject;
+                    Glock glock = glockInstance.GetComponent<Glock>();
+                    glock.Shoot();
+
 
                     // If out of ammo, switch back to default weapon
                     if (glock17Ammo <= 0)
