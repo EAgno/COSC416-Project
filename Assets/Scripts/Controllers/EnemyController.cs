@@ -327,7 +327,8 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
-        // Disable collider to prevent further collisions
+        // Disable collider to prevent further collisions but make sure it is fixed in place
+        rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false;
 
         // Add death animation or particle effects
