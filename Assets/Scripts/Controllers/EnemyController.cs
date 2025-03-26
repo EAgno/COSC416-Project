@@ -33,7 +33,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
 
-    private bool isFlashing = false;
     private bool isStunned = false;
     private float stunnedUntil = 0f;
 
@@ -355,7 +354,6 @@ public class EnemyController : MonoBehaviour
         if (spriteRenderer == null)
             yield break;
 
-        isFlashing = true;
 
         // Store the original color (usually white/clear)
         Color originalColor = Color.white;
@@ -369,7 +367,6 @@ public class EnemyController : MonoBehaviour
         // Always return to white/original color, even if coroutine was stopped early
         spriteRenderer.color = originalColor;
 
-        isFlashing = false;
     }
     void Die()
     {
