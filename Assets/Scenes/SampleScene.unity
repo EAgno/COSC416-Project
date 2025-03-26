@@ -899,6 +899,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7465375838455305748, guid: 873bdf46dd5a64c218e50f304fc5d056, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465375838455305748, guid: 873bdf46dd5a64c218e50f304fc5d056, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465375838455305748, guid: 873bdf46dd5a64c218e50f304fc5d056, type: 3}
       propertyPath: testModeEnabled
       value: 1
       objectReference: {fileID: 0}
@@ -24939,9 +24947,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: glock17Ammo
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1079578212}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: flameThrowerAmmo
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.68

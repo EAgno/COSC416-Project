@@ -5,7 +5,6 @@ public class EnemyController : MonoBehaviour
 {
     [Header("Enemy Stats")]
     [SerializeField] private int health = 100;
-    [SerializeField] private int maxHealth = 100;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
@@ -314,10 +313,14 @@ public class EnemyController : MonoBehaviour
         isStunned = true;
         stunnedUntil = Time.time + stunDuration;
 
-        // Always flash and show hit animation for each hit
+        // Make sure we always reset the color first to handle interrupted flashes
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.white; // Reset to default color
+        }
+
         // Stop previous coroutines if they're running
-        StopCoroutine("FlashRed");
-        StopCoroutine("ResetHitAnimation");
+        StopAllCoroutines(); // Stop ALL coroutines to be safe
 
         // Start new visual feedback
         StartCoroutine(FlashRed());
@@ -338,8 +341,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator ResetHitAnimation()
     {
-        // Wait for the hit animation to play (adjust time to match your animation length)
-        yield return new WaitForSeconds(0.5f); // Example: 0.5 seconds
+        yield return new WaitForSeconds(0.1f);
 
         // Reset the hit state if the animator still exists
         if (animator != null)
@@ -355,8 +357,8 @@ public class EnemyController : MonoBehaviour
 
         isFlashing = true;
 
-        // Store the original color
-        Color originalColor = spriteRenderer.color;
+        // Store the original color (usually white/clear)
+        Color originalColor = Color.white;
 
         // Change to red to indicate damage
         spriteRenderer.color = Color.red;
@@ -364,7 +366,7 @@ public class EnemyController : MonoBehaviour
         // Wait a short time
         yield return new WaitForSeconds(0.1f);
 
-        // Return to original color
+        // Always return to white/original color, even if coroutine was stopped early
         spriteRenderer.color = originalColor;
 
         isFlashing = false;
