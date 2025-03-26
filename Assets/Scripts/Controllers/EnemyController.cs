@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool isGrounded;
     [Header("Enemy Level")]
-    [Range(1, 3)]
+    [Range(1, 10)]
     [SerializeField] private int enemyLevel = 1; // Default to level 1
     [SerializeField] private float sizeMultiplierPerLevel = 1f; // Size increase per level
 
@@ -39,6 +39,10 @@ public class EnemyController : MonoBehaviour
 
     private bool isStunned = false;
     private float stunnedUntil = 0f;
+
+    // Add a new field to track if the enemy is touching the player
+    private bool isTouchingPlayer = false;
+    private GameObject playerObject = null;
 
     void Start()
     {
@@ -98,25 +102,19 @@ public class EnemyController : MonoBehaviour
             Jump();
         }
 
-        // Allow manual attacking with space, but check distance first
-        if (Input.GetKeyDown(testAttackKey))
+        // Allow manual attacking with space, but only if touching the player
+        if (Input.GetKeyDown(testAttackKey) && isTouchingPlayer)
         {
-            // Check distance to player, same as in AI mode
-            float distance = Vector3.Distance(transform.position, player.position);
-
-            if (distance <= attackRange)
+            // Only attack if within range and cooldown allows
+            if (Time.time - lastAttackTime >= attackCooldown)
             {
-                // Only attack if within range and cooldown allows
-                if (Time.time - lastAttackTime >= attackCooldown)
-                {
-                    Attack();
-                }
+                Attack();
             }
-            else
-            {
-                // Optional: provide feedback that player is out of range
-                Debug.Log("Attack attempted but player is out of range!");
-            }
+        }
+        else if (Input.GetKeyDown(testAttackKey))
+        {
+            // Optional: provide feedback that player is not in contact
+            Debug.Log("Attack attempted but not touching player!");
         }
     }
 
@@ -139,27 +137,21 @@ public class EnemyController : MonoBehaviour
         }
 
         // Check if player is in sight
-        float distance = Vector3.Distance(transform.position, player.position);
-
         // Check if player is within detection radius and we have line of sight
         canSeePlayer = CheckLineOfSightToPlayer();
 
-        // Check if we need to jump to reach the player (instead of using time interval)
+        // Check if we need to jump to reach the player
         CheckAndJumpTowardsPlayer();
 
-        if (canSeePlayer)
+        // Try to attack if touching player and cooldown allows
+        if (isTouchingPlayer && Time.time - lastAttackTime >= attackCooldown)
         {
-            if (distance <= attackRange)
-            {
-                if (Time.time - lastAttackTime >= attackCooldown)
-                {
-                    Attack();
-                }
-            }
-            else
-            {
-                MoveTowardsPlayer();
-            }
+            Attack();
+        }
+        // Otherwise move towards player if we can see them
+        else if (canSeePlayer)
+        {
+            MoveTowardsPlayer();
         }
         else
         {
@@ -279,12 +271,26 @@ public class EnemyController : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
+    // Add collision detection for player contact
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the collision is with the ground (you might want to use tags or layers)
+        // Check if the collision is with the ground
         if (collision.gameObject.CompareTag("Unbreakable") || collision.gameObject.CompareTag("Breakable"))
         {
             isGrounded = true;
+        }
+
+        // Check if the collision is with the player
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isTouchingPlayer = true;
+            playerObject = collision.gameObject;
+
+            // Try to attack immediately upon contact if cooldown allows
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                Attack();
+            }
         }
     }
 
@@ -294,14 +300,24 @@ public class EnemyController : MonoBehaviour
         {
             isGrounded = false;
         }
+
+        // Clear player contact when no longer touching
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isTouchingPlayer = false;
+        }
     }
 
+    // Modify the Attack() method to be simpler
     void Attack()
     {
-        // Deal damage to player
-        player.GetComponent<PlayerController>().Die();
-
-        lastAttackTime = Time.time;
+        // Only attack if we're touching the player
+        if (isTouchingPlayer && playerObject != null)
+        {
+            // Deal damage to player
+            playerObject.GetComponent<PlayerController>().Die();
+            lastAttackTime = Time.time;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -408,10 +424,21 @@ public class EnemyController : MonoBehaviour
             UnityEditor.Handles.Label(transform.position + Vector3.up * 2, "TEST MODE");
         }
 
-        // Draw enemy level indicator
+        // Draw enemy level indicator with color based on level
         if (Application.isPlaying)
         {
-            Gizmos.color = Color.magenta;
+            // Choose color based on enemy level
+            Color levelColor;
+            if (enemyLevel <= 3)
+                levelColor = Color.green; // Levels 1-3: Green
+            else if (enemyLevel <= 6)
+                levelColor = Color.yellow; // Levels 4-6: Yellow
+            else if (enemyLevel <= 9)
+                levelColor = Color.red; // Levels 7-9: Red
+            else
+                levelColor = new Color(1f, 0f, 1f); // Level 10: Purple
+
+            Gizmos.color = levelColor;
             string levelText = "Level " + enemyLevel;
             UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, levelText);
         }
@@ -451,39 +478,34 @@ public class EnemyController : MonoBehaviour
     void ApplyLevelScaling()
     {
         // Validate level is within range
-        enemyLevel = Mathf.Clamp(enemyLevel, 1, 3);
+        enemyLevel = Mathf.Clamp(enemyLevel, 1, 10);
 
-        // Calculate scale factor based on level (level 1 = no change, level 2 = +1, level 3 = +2)
+        // Calculate scale factor based on level
+        // For level 10, we want it to be 10x the size
         float scaleFactor = 1f + (enemyLevel - 1) * sizeMultiplierPerLevel;
 
         // Apply the scale to the enemy
         transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
-        // Apply custom health values for each level
-        switch (enemyLevel)
-        {
-            case 1:
-                health = 100;
-                break;
-            case 2:
-                health = 200;
-                break;
-            case 3:
-                health = 1000;
-                break;
-        }
+        // Set health based on level (100 per level)
+        health = enemyLevel * 100;
 
-        // Scale other stats based on level
+        // Scale attack range based on size
         attackRange *= scaleFactor;
 
-        // Optionally adjust other stats based on level
-        speed += (enemyLevel - 1) * 0.5f; // Slightly faster at higher levels
-        jumpForce += (enemyLevel - 1) * 1f; // Higher jump force for bigger enemies
+        // Adjust speed - larger enemies are slower
+        // Reduce speed by 5% per level above 1 (up to 45% reduction at level 10)
+        float speedReductionFactor = 1f - ((enemyLevel - 1) * 0.05f);
+        speed *= speedReductionFactor;
+
+        // Keep jump force consistent regardless of size
+        // This ensures all enemies have the same jumping capability
+        // No adjustment needed for jumpForce
     }
 
     public void SetEnemyLevel(int level)
     {
-        enemyLevel = Mathf.Clamp(level, 1, 3);
+        enemyLevel = Mathf.Clamp(level, 1, 10);
         ApplyLevelScaling();
     }
 
