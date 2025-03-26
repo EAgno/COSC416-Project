@@ -125,16 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a474e585c52a43f78bcb8c3b8f0e28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
-  attackDamage: 10
   speed: 4
   attackRange: 1
   attackCooldown: 1
   jumpForce: 5
-  nextJumpTime: 0
-  jumpInterval: 1000
   isGrounded: 0
+  enemyLevel: 1
+  sizeMultiplierPerLevel: 1
   detectionRadius: 12
   playerLayer:
     serializedVersion: 2
@@ -148,11 +145,7 @@ MonoBehaviour:
   testLeftKey: 106
   testRightKey: 108
   testAttackKey: 32
-  player: {fileID: 0}
-  lastAttackTime: 0
-  spriteRenderer: {fileID: 0}
-  animator: {fileID: 0}
-  rb: {fileID: 0}
+  stunDuration: 0.5
 --- !u!50 &5079468482161380987
 Rigidbody2D:
   serializedVersion: 5

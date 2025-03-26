@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour
 {
     [Header("Enemy Stats")]
-    private int health = 100;
+    [SerializeField] private int health = 100;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
