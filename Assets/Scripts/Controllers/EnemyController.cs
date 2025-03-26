@@ -25,6 +25,9 @@ public class EnemyController : MonoBehaviour
     public KeyCode testRightKey = KeyCode.L;
     public KeyCode testAttackKey = KeyCode.Space;
 
+    [Header("Feedback")]
+    [SerializeField] private float stunDuration = 0.5f; // Duration of stun when hit
+
     [SerializeField] private Transform player;
     [SerializeField] private float lastAttackTime;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -32,6 +35,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
 
     private bool isFlashing = false;
+    private bool isStunned = false;
+    private float stunnedUntil = 0f;
 
     void Start()
     {
@@ -98,6 +103,22 @@ public class EnemyController : MonoBehaviour
 
     void HandleAIMode()
     {
+        // Check if stunned
+        if (isStunned)
+        {
+            // If stun duration is over, remove stun
+            if (Time.time > stunnedUntil)
+            {
+                isStunned = false;
+            }
+            else
+            {
+                // If still stunned, stop movement and return
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                return;
+            }
+        }
+
         // Check if player is in sight
         float distance = Vector3.Distance(transform.position, player.position);
 
@@ -276,6 +297,10 @@ public class EnemyController : MonoBehaviour
     void TakeDamage(int damage)
     {
         health -= damage;
+
+        // Apply stun effect
+        isStunned = true;
+        stunnedUntil = Time.time + stunDuration;
 
         // Visual feedback - only start a new flash if we're not already flashing
         if (!isFlashing)
