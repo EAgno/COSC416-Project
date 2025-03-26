@@ -129,6 +129,17 @@ MonoBehaviour:
   attackRange: 1
   attackCooldown: 1
   attackDamage: 10
+  jumpForce: 5
+  detectionRadius: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  drawDebugRays: 1
+  testModeEnabled: 0
+  testJumpKey: 105
+  testLeftKey: 106
+  testRightKey: 108
+  testAttackKey: 32
 --- !u!50 &5079468482161380987
 Rigidbody2D:
   serializedVersion: 5

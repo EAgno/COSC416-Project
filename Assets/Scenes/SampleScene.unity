@@ -25070,8 +25070,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7465375838455305748, guid: 873bdf46dd5a64c218e50f304fc5d056, type: 3}
-      propertyPath: detectionLayer.m_Bits
-      value: 1
+      propertyPath: testModeEnabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8117644297575269979, guid: 873bdf46dd5a64c218e50f304fc5d056, type: 3}
       propertyPath: m_Name
