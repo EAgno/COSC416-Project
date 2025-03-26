@@ -314,12 +314,17 @@ public class EnemyController : MonoBehaviour
         isStunned = true;
         stunnedUntil = Time.time + stunDuration;
 
-        // Visual feedback - only start a new flash if we're not already flashing
-        if (!isFlashing)
-        {
-            StartCoroutine(FlashRed());
+        // Always flash and show hit animation for each hit
+        // Stop previous coroutines if they're running
+        StopCoroutine("FlashRed");
+        StopCoroutine("ResetHitAnimation");
 
-            // Set the hit animation and reset it after a delay
+        // Start new visual feedback
+        StartCoroutine(FlashRed());
+
+        // Set the hit animation and reset it after a delay
+        if (animator != null)
+        {
             animator.SetBool("isHitted", true);
             StartCoroutine(ResetHitAnimation());
         }
@@ -336,8 +341,11 @@ public class EnemyController : MonoBehaviour
         // Wait for the hit animation to play (adjust time to match your animation length)
         yield return new WaitForSeconds(0.5f); // Example: 0.5 seconds
 
-        // Reset the hit state
-        animator.SetBool("isHitted", false);
+        // Reset the hit state if the animator still exists
+        if (animator != null)
+        {
+            animator.SetBool("isHitted", false);
+        }
     }
 
     private IEnumerator FlashRed()
@@ -361,7 +369,6 @@ public class EnemyController : MonoBehaviour
 
         isFlashing = false;
     }
-
     void Die()
     {
         // Disable collider to prevent further collisions but make sure it is fixed in place
