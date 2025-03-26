@@ -4,12 +4,17 @@ using System.Collections;
 public class EnemyController : MonoBehaviour
 {
     [Header("Enemy Stats")]
-    [SerializeField] private int health = 100;
+    private int health = 100;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool isGrounded;
+    [Header("Enemy Level")]
+    [Range(1, 3)]
+    [SerializeField] private int enemyLevel = 1; // Default to level 1
+    [SerializeField] private float sizeMultiplierPerLevel = 1f; // Size increase per level
+
     [Header("Detection")]
     public float detectionRadius = 5f; // Detection radius for player
     public LayerMask playerLayer; // Layer mask for player detection
@@ -26,12 +31,11 @@ public class EnemyController : MonoBehaviour
 
     [Header("Feedback")]
     [SerializeField] private float stunDuration = 0.5f; // Duration of stun when hit
-
-    [SerializeField] private Transform player;
-    [SerializeField] private float lastAttackTime;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Rigidbody2D rb;
+    private Transform player;
+    private float lastAttackTime;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private Rigidbody2D rb;
 
     private bool isStunned = false;
     private float stunnedUntil = 0f;
@@ -50,6 +54,9 @@ public class EnemyController : MonoBehaviour
             Debug.LogWarning("Obstacle layer not set correctly in inspector!");
 
         animator.SetBool("isSpawned", true);
+
+        // Apply scaling based on enemy level
+        ApplyLevelScaling();
     }
 
     void Update()
@@ -401,6 +408,14 @@ public class EnemyController : MonoBehaviour
             UnityEditor.Handles.Label(transform.position + Vector3.up * 2, "TEST MODE");
         }
 
+        // Draw enemy level indicator
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.magenta;
+            string levelText = "Level " + enemyLevel;
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, levelText);
+        }
+
         // Draw detection radius
         if (drawDebugRays)
         {
@@ -431,5 +446,49 @@ public class EnemyController : MonoBehaviour
                 Gizmos.DrawWireSphere(player.position, 0.2f);
             }
         }
+    }
+
+    void ApplyLevelScaling()
+    {
+        // Validate level is within range
+        enemyLevel = Mathf.Clamp(enemyLevel, 1, 3);
+
+        // Calculate scale factor based on level (level 1 = no change, level 2 = +1, level 3 = +2)
+        float scaleFactor = 1f + (enemyLevel - 1) * sizeMultiplierPerLevel;
+
+        // Apply the scale to the enemy
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+
+        // Apply custom health values for each level
+        switch (enemyLevel)
+        {
+            case 1:
+                health = 100;
+                break;
+            case 2:
+                health = 200;
+                break;
+            case 3:
+                health = 1000;
+                break;
+        }
+
+        // Scale other stats based on level
+        attackRange *= scaleFactor;
+
+        // Optionally adjust other stats based on level
+        speed += (enemyLevel - 1) * 0.5f; // Slightly faster at higher levels
+        jumpForce += (enemyLevel - 1) * 1f; // Higher jump force for bigger enemies
+    }
+
+    public void SetEnemyLevel(int level)
+    {
+        enemyLevel = Mathf.Clamp(level, 1, 3);
+        ApplyLevelScaling();
+    }
+
+    public int GetEnemyLevel()
+    {
+        return enemyLevel;
     }
 }
