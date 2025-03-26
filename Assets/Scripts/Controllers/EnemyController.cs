@@ -91,12 +91,24 @@ public class EnemyController : MonoBehaviour
             Jump();
         }
 
-        // Allow manual attacking with space
+        // Allow manual attacking with space, but check distance first
         if (Input.GetKeyDown(testAttackKey))
         {
-            if (Time.time - lastAttackTime >= attackCooldown)
+            // Check distance to player, same as in AI mode
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            if (distance <= attackRange)
             {
-                Attack();
+                // Only attack if within range and cooldown allows
+                if (Time.time - lastAttackTime >= attackCooldown)
+                {
+                    Attack();
+                }
+            }
+            else
+            {
+                // Optional: provide feedback that player is out of range
+                Debug.Log("Attack attempted but player is out of range!");
             }
         }
     }
