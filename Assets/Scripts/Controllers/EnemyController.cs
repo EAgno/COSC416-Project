@@ -14,6 +14,12 @@ public class EnemyController : MonoBehaviour
     public LayerMask playerLayer; // Layer mask for player detection
     public bool drawDebugRays = true; // Toggle debug visualization
 
+    [Header("Testing")]
+    public bool testModeEnabled = false; // Toggle for test mode
+    public KeyCode testJumpKey = KeyCode.I;
+    public KeyCode testLeftKey = KeyCode.J;
+    public KeyCode testRightKey = KeyCode.L;
+    public KeyCode testAttackKey = KeyCode.Space;
 
     private Transform player;
     private float lastAttackTime;
@@ -34,9 +40,55 @@ public class EnemyController : MonoBehaviour
     {
         if (player == null) return;
 
+        if (testModeEnabled)
+        {
+            HandleTestMode();
+        }
+        else
+        {
+            HandleAIMode();
+        }
+
+        UpdateAnimations();
+    }
+
+    void HandleTestMode()
+    {
+        // Handle horizontal movement with J and L keys
+        float horizontalInput = 0f;
+        if (Input.GetKey(testLeftKey))
+            horizontalInput = -1f;
+        else if (Input.GetKey(testRightKey))
+            horizontalInput = 1f;
+
+        rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
+
+        // Flip sprite based on movement direction
+        if (horizontalInput != 0)
+        {
+            spriteRenderer.flipX = horizontalInput < 0;
+        }
+
+        // Handle jumping with I key
+        if (Input.GetKeyDown(testJumpKey) && isGrounded)
+        {
+            Jump();
+        }
+
+        // Allow manual attacking with space
+        if (Input.GetKeyDown(testAttackKey))
+        {
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                Attack();
+            }
+        }
+    }
+
+    void HandleAIMode()
+    {
         // Check if player is in sight
         float distance = Vector3.Distance(transform.position, player.position);
-        UpdateAnimations();
 
         // Check if it's time to jump
         if (Time.time >= nextJumpTime && isGrounded)
@@ -114,5 +166,14 @@ public class EnemyController : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
-
+    // Draw testing mode status in scene view
+    void OnDrawGizmos()
+    {
+        if (testModeEnabled && Application.isPlaying)
+        {
+            // Display a text label above the enemy when in test mode
+            Gizmos.color = Color.yellow;
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 2, "TEST MODE");
+        }
+    }
 }
