@@ -48,6 +48,8 @@ public class EnemyController : MonoBehaviour
             Debug.LogWarning("Player layer not set correctly in inspector!");
         if (obstacleLayer.value == 0)
             Debug.LogWarning("Obstacle layer not set correctly in inspector!");
+
+        animator.SetBool("isSpawned", true);
     }
 
     void Update()

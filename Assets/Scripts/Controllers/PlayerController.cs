@@ -143,6 +143,8 @@ public class PlayerController : MonoBehaviour
         // Subscribe to the attack events
         inputManager.OnAttackPressed.AddListener(OnAttackPressed);
         inputManager.OnAttackHeld.AddListener(OnAttackHeld);
+
+        animator.SetBool("IsSpawned", true);
     }
 
     void Update()
