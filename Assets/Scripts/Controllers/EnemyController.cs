@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float attackRange = 1f;
-    public float attackCooldown = 1f;
-    public float attackDamage = 10f;
-    public float jumpForce = 5f;
-    private float nextJumpTime;
-    private float jumpInterval = 1f;
-    private bool isGrounded;
+    [Header("Enemy Stats")]
+    [SerializeField] private int health = 100;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int attackDamage = 1;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private bool isGrounded;
+    [Header("Detection")]
     public float detectionRadius = 5f; // Detection radius for player
     public LayerMask playerLayer; // Layer mask for player detection
+    public LayerMask obstacleLayer; // Layer mask for obstacles
     public bool drawDebugRays = true; // Toggle debug visualization
+    private bool canSeePlayer = false;
 
     [Header("Testing")]
     public bool testModeEnabled = false; // Toggle for test mode
@@ -21,11 +25,11 @@ public class EnemyController : MonoBehaviour
     public KeyCode testRightKey = KeyCode.L;
     public KeyCode testAttackKey = KeyCode.Space;
 
-    private Transform player;
-    private float lastAttackTime;
-    private SpriteRenderer spriteRenderer;
-    private Animator animator;
-    private Rigidbody2D rb;
+    [SerializeField] private Transform player;
+    [SerializeField] private float lastAttackTime;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Rigidbody2D rb;
 
     void Start()
     {
@@ -33,7 +37,12 @@ public class EnemyController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        nextJumpTime = Time.time + jumpInterval;
+
+        // Make sure your layer masks are properly set
+        if (playerLayer.value == 0)
+            Debug.LogWarning("Player layer not set correctly in inspector!");
+        if (obstacleLayer.value == 0)
+            Debug.LogWarning("Obstacle layer not set correctly in inspector!");
     }
 
     void Update()
@@ -90,24 +99,93 @@ public class EnemyController : MonoBehaviour
         // Check if player is in sight
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // Check if it's time to jump
-        if (Time.time >= nextJumpTime && isGrounded)
-        {
-            Jump();
-            nextJumpTime = Time.time + jumpInterval;
-        }
+        // Check if player is within detection radius and we have line of sight
+        canSeePlayer = CheckLineOfSightToPlayer();
 
-        if (distance <= attackRange)
+        // Check if we need to jump to reach the player (instead of using time interval)
+        CheckAndJumpTowardsPlayer();
+
+        if (canSeePlayer)
         {
-            if (Time.time - lastAttackTime >= attackCooldown)
+            if (distance <= attackRange)
             {
-                Attack();
+                if (Time.time - lastAttackTime >= attackCooldown)
+                {
+                    Attack();
+                }
+            }
+            else
+            {
+                MoveTowardsPlayer();
             }
         }
         else
         {
-            MoveTowardsPlayer();
+            // Optional: Add idle behavior when player is not detected
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
+    }
+
+    void CheckAndJumpTowardsPlayer()
+    {
+        // Only jump if we can see the player and are on the ground
+        if (canSeePlayer && isGrounded)
+        {
+            // Calculate height difference between player and enemy
+            float heightDifference = player.position.y - transform.position.y;
+
+            // Only jump if the player is above us by a minimum threshold
+            float minHeightToJump = 1.0f; // Adjust this value based on your game
+
+            if (heightDifference > minHeightToJump)
+            {
+                // Jump with force proportional to the height difference (within limits)
+                float adjustedJumpForce = Mathf.Clamp(jumpForce * (heightDifference / 2f), jumpForce, jumpForce * 1.5f);
+
+                Debug.Log("Jumping to reach player. Height difference: " + heightDifference +
+                          ", Jump force: " + adjustedJumpForce);
+
+                rb.AddForce(Vector2.up * adjustedJumpForce, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    bool CheckLineOfSightToPlayer()
+    {
+        if (player == null) return false;
+
+        // Check if player is within detection radius
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance > detectionRadius) return false;
+
+        // Use a circle cast instead of a raycast
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(
+            transform.position,
+            0.1f,  // Small radius for the circle cast
+            (player.position - transform.position).normalized,
+            distance
+        );
+
+        // Check all hits to see if we hit an obstacle before the player
+        foreach (RaycastHit2D hit in hits)
+        {
+            Debug.Log("CircleCast hit: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
+
+            // If we hit the player first, we have line of sight
+            if (hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+
+            // If we hit something else first, we don't have line of sight
+            if (hit.collider.gameObject != gameObject) // Ignore self
+            {
+                return false;
+            }
+        }
+
+        // We didn't hit the player
+        return false;
     }
 
     void UpdateAnimations()
@@ -127,6 +205,10 @@ public class EnemyController : MonoBehaviour
     void MoveTowardsPlayer()
     {
         Vector2 direction = (player.position - transform.position).normalized;
+
+        // Add debug for movement
+        Debug.Log("Moving towards player. Direction: " + direction);
+
         rb.linearVelocity = new Vector2(direction.x * speed, rb.linearVelocity.y);
 
         // Flip sprite based on movement direction
@@ -169,11 +251,42 @@ public class EnemyController : MonoBehaviour
     // Draw testing mode status in scene view
     void OnDrawGizmos()
     {
+        // Draw test mode indicator
         if (testModeEnabled && Application.isPlaying)
         {
-            // Display a text label above the enemy when in test mode
             Gizmos.color = Color.yellow;
             UnityEditor.Handles.Label(transform.position + Vector3.up * 2, "TEST MODE");
+        }
+
+        // Draw detection radius
+        if (drawDebugRays)
+        {
+            // Draw detection radius
+            Gizmos.color = canSeePlayer ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionRadius);
+
+            // Draw line of sight ray if player exists
+            if (player != null && Application.isPlaying)
+            {
+                Vector2 directionToPlayer = player.position - transform.position;
+                float distanceToPlayer = directionToPlayer.magnitude;
+
+                // Draw ray from enemy to player with appropriate color
+                if (canSeePlayer)
+                {
+                    // Green = Player is visible
+                    Debug.DrawLine(transform.position, player.position, Color.green);
+                }
+                else if (distanceToPlayer <= detectionRadius)
+                {
+                    // Red = Player is within radius but not visible
+                    Debug.DrawLine(transform.position, player.position, Color.red);
+                }
+
+                // Add extra visual debug information
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(player.position, 0.2f);
+            }
         }
     }
 }
