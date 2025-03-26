@@ -281,6 +281,10 @@ public class EnemyController : MonoBehaviour
         if (!isFlashing)
         {
             StartCoroutine(FlashRed());
+
+            // Set the hit animation and reset it after a delay
+            animator.SetBool("isHitted", true);
+            StartCoroutine(ResetHitAnimation());
         }
 
         // Check if enemy should die
@@ -288,6 +292,15 @@ public class EnemyController : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private IEnumerator ResetHitAnimation()
+    {
+        // Wait for the hit animation to play (adjust time to match your animation length)
+        yield return new WaitForSeconds(0.5f); // Example: 0.5 seconds
+
+        // Reset the hit state
+        animator.SetBool("isHitted", false);
     }
 
     private IEnumerator FlashRed()
@@ -314,13 +327,22 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
-        // Optional: Add death animation or particle effects
-        Debug.Log("Enemy died!");
+        // Disable collider to prevent further collisions
+        GetComponent<Collider2D>().enabled = false;
 
-        // Destroy the enemy game object
-        Destroy(gameObject);
+        // Add death animation or particle effects
+        animator.SetBool("isDead", true);
+
+        // Destroy the enemy game object after a delay
+        StartCoroutine(WaitAndDestroy());
 
         // Could also add score increment, item drops, etc. here
+    }
+
+    IEnumerator WaitAndDestroy()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Destroy(gameObject);
     }
 
     // Draw testing mode status in scene view
