@@ -143,8 +143,6 @@ public class EnemyController : MonoBehaviour
                 // Use a more consistent jump force similar to the player
                 // Instead of the dynamic calculation that might be too aggressive
 
-                Debug.Log("Jumping to reach player. Height difference: " + heightDifference);
-
                 // Reset vertical velocity for consistent jumps (like player does)
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
 
@@ -225,9 +223,6 @@ public class EnemyController : MonoBehaviour
     void MoveTowardsPlayer()
     {
         Vector2 direction = (player.position - transform.position).normalized;
-
-        // Add debug for movement
-        Debug.Log("Moving towards player. Direction: " + direction);
 
         rb.linearVelocity = new Vector2(direction.x * speed, rb.linearVelocity.y);
 
