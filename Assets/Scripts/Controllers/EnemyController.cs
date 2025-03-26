@@ -6,7 +6,6 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy Stats")]
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int attackDamage = 1;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
@@ -31,6 +30,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
+
+    private bool isFlashing = false;
 
     void Start()
     {
@@ -276,8 +277,11 @@ public class EnemyController : MonoBehaviour
     {
         health -= damage;
 
-        // Optional: Add visual feedback
-        StartCoroutine(FlashRed());
+        // Visual feedback - only start a new flash if we're not already flashing
+        if (!isFlashing)
+        {
+            StartCoroutine(FlashRed());
+        }
 
         // Check if enemy should die
         if (health <= 0)
@@ -288,6 +292,11 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator FlashRed()
     {
+        if (spriteRenderer == null)
+            yield break;
+
+        isFlashing = true;
+
         // Store the original color
         Color originalColor = spriteRenderer.color;
 
@@ -299,6 +308,8 @@ public class EnemyController : MonoBehaviour
 
         // Return to original color
         spriteRenderer.color = originalColor;
+
+        isFlashing = false;
     }
 
     void Die()
