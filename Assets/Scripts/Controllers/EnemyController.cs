@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
@@ -265,6 +266,55 @@ public class EnemyController : MonoBehaviour
         player.GetComponent<PlayerController>().Die();
 
         lastAttackTime = Time.time;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Check for fire tag to handle damage
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            TakeDamage(10); // Adjust damage amount as needed
+        }
+    }
+
+    void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        // Optional: Add visual feedback
+        StartCoroutine(FlashRed());
+
+        // Check if enemy should die
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        // Store the original color
+        Color originalColor = spriteRenderer.color;
+
+        // Change to red to indicate damage
+        spriteRenderer.color = Color.red;
+
+        // Wait a short time
+        yield return new WaitForSeconds(0.1f);
+
+        // Return to original color
+        spriteRenderer.color = originalColor;
+    }
+
+    void Die()
+    {
+        // Optional: Add death animation or particle effects
+        Debug.Log("Enemy died!");
+
+        // Destroy the enemy game object
+        Destroy(gameObject);
+
+        // Could also add score increment, item drops, etc. here
     }
 
     // Draw testing mode status in scene view
