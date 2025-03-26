@@ -139,13 +139,16 @@ public class EnemyController : MonoBehaviour
 
             if (heightDifference > minHeightToJump)
             {
-                // Jump with force proportional to the height difference (within limits)
-                float adjustedJumpForce = Mathf.Clamp(jumpForce * (heightDifference / 2f), jumpForce, jumpForce * 1.5f);
+                // Use a more consistent jump force similar to the player
+                // Instead of the dynamic calculation that might be too aggressive
 
-                Debug.Log("Jumping to reach player. Height difference: " + heightDifference +
-                          ", Jump force: " + adjustedJumpForce);
+                Debug.Log("Jumping to reach player. Height difference: " + heightDifference);
 
-                rb.AddForce(Vector2.up * adjustedJumpForce, ForceMode2D.Impulse);
+                // Reset vertical velocity for consistent jumps (like player does)
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+
+                // Use a fixed jump force similar to the player's implementation
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
         }
     }
@@ -166,26 +169,42 @@ public class EnemyController : MonoBehaviour
             distance
         );
 
-        // Check all hits to see if we hit an obstacle before the player
+        bool foundPlayer = false;
+        float playerDistance = float.MaxValue;
+
+        // First find the player and its distance
         foreach (RaycastHit2D hit in hits)
         {
-            Debug.Log("CircleCast hit: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
-
-            // If we hit the player first, we have line of sight
             if (hit.collider.CompareTag("Player"))
             {
-                return true;
-            }
-
-            // If we hit something else first, we don't have line of sight
-            if (hit.collider.gameObject != gameObject) // Ignore self
-            {
-                return false;
+                foundPlayer = true;
+                playerDistance = hit.distance;
+                break;
             }
         }
 
-        // We didn't hit the player
-        return false;
+        if (!foundPlayer) return false;
+
+        // Check if any obstacle in our defined obstacle layer is blocking the view
+        foreach (RaycastHit2D hit in hits)
+        {
+            // Skip self
+            if (hit.collider.gameObject == gameObject)
+                continue;
+
+            // Check if this is an obstacle (using our obstacle layer)
+            if (((1 << hit.collider.gameObject.layer) & obstacleLayer) != 0)
+            {
+                // If we hit an obstacle before the player, we can't see the player
+                if (hit.distance < playerDistance)
+                {
+                    return false;
+                }
+            }
+        }
+
+        // We found the player and no obstacles are in the way
+        return true;
     }
 
     void UpdateAnimations()
