@@ -162,7 +162,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: b12ee53960742b84a9ff990582870721, type: 2}
+  m_Material: {fileID: 6200000, guid: 76528e6fd072886478cc45759a62f435, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -183,7 +183,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b12ee53960742b84a9ff990582870721, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -226,6 +226,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 7
   maxJumps: 1
+  jumpsRemaining: 0
   bombPrefab: {fileID: 1148222379982045322, guid: 7d65e938455364db694eea42fcd1a45c, type: 3}
   flameThrowerAmmo: 100
   flameThrowerAmmoPerShot: 5
@@ -244,6 +245,14 @@ MonoBehaviour:
   groundCheckDistance: 0.4
   groundCheckSize: {x: 0.6, y: 0.02}
   groundCheckOffset: {x: 0, y: -0.5}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 320
+  wallCheckDistance: 0.05
+  wallCheckSize: {x: 0.05, y: 1}
+  leftWallCheckOffset: {x: -0.4, y: 0}
+  rightWallCheckOffset: {x: 0.4, y: 0}
+  wallSlideSpeed: 1.5
 --- !u!1001 &4660346321645409364
 PrefabInstance:
   m_ObjectHideFlags: 0
