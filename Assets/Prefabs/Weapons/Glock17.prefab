@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8287401845715711437, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.46
+      value: -16.38
       objectReference: {fileID: 0}
     - target: {fileID: 8287401845715711437, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.33
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 8287401845715711437, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59,14 +59,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5308452437927580842, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -9003186489422351315}
+      addedObject: {fileID: 3783107952281475274}
   m_SourcePrefab: {fileID: 100100000, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
 --- !u!1 &4233321637086962244 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5308452437927580842, guid: 8a140aca9986e7b4b89af83084030412, type: 3}
   m_PrefabInstance: {fileID: 8292444972396967662}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-9003186489422351315
+--- !u!114 &3783107952281475274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,9 +75,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4233321637086962244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49462d671cc65e943b11e2c4f0fdebce, type: 3}
+  m_Script: {fileID: 11500000, guid: 909e15e15aa049e46b04f03e153d53de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6103885067468895541, guid: 12a8c3860daf73a4595b75a38df98d46, type: 3}
-  bulletSpawnPoint: {fileID: 0}
-  bulletSpeed: 15
+  levitationHeight: 0.2
+  levitationSpeed: 2
+  immunityDuration: 1

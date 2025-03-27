@@ -143,6 +143,8 @@ public class PlayerController : MonoBehaviour
         // Subscribe to the attack events
         inputManager.OnAttackPressed.AddListener(OnAttackPressed);
         inputManager.OnAttackHeld.AddListener(OnAttackHeld);
+
+        animator.SetBool("IsSpawned", true);
     }
 
     void Update()
@@ -219,9 +221,6 @@ public class PlayerController : MonoBehaviour
                 DeactivateAllWeapons();
                 break;
         }
-
-        // Log the current weapon for debugging
-        Debug.Log("Current weapon: " + currentWeapon.ToString());
     }
 
     // this line actually moves the player in the FixedUpdate method
@@ -395,7 +394,6 @@ public class PlayerController : MonoBehaviour
             case WeaponType.None:
                 // Use bomb attack - one bomb at a time
                 UseDefaultBombAttack();
-                Debug.Log("Player used bomb attack");
                 break;
 
             case WeaponType.FlameThrower:
@@ -404,7 +402,6 @@ public class PlayerController : MonoBehaviour
                     // Fire flamethrower
                     flameThrowerAmmo -= flameThrowerAmmoPerShot;
                     lastFireTime = Time.time;
-                    Debug.Log("Player used FlameThrower attack. Ammo remaining: " + flameThrowerAmmo);
 
                     // the FlameThrower script is attached to the FlameThrower prefab
                     GameObject flameThrowerInstance = transform.Find("FlameThrower").gameObject;
@@ -414,7 +411,6 @@ public class PlayerController : MonoBehaviour
                     // If out of ammo, switch back to default weapon
                     if (flameThrowerAmmo <= 0)
                     {
-                        Debug.Log("FlameThrower out of ammo!");
                         hasFlameThrower = false; // Mark as not collected anymore
                         DeactivateAllWeapons();
                     }
@@ -427,7 +423,6 @@ public class PlayerController : MonoBehaviour
                     // Fire glock
                     glock17Ammo -= glock17AmmoPerShot;
                     lastFireTime = Time.time;
-                    Debug.Log("Player used Glock17 attack. Ammo remaining: " + glock17Ammo);
 
                     // the glock script is attached to the glock prefab
                     GameObject glockInstance = transform.Find("Glock17").gameObject;
@@ -438,7 +433,6 @@ public class PlayerController : MonoBehaviour
                     // If out of ammo, switch back to default weapon
                     if (glock17Ammo <= 0)
                     {
-                        Debug.Log("Glock17 out of ammo!");
                         hasGlock17 = false; // Mark as not collected anymore
                         DeactivateAllWeapons();
                     }

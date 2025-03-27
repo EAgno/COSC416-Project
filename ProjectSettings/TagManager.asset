@@ -15,6 +15,7 @@ TagManager:
   - FlameThrower
   - Glock17
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
