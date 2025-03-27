@@ -68,11 +68,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 wallCheckSize = new Vector2(0.02f, 0.5f); // Size of wall check box (narrow width, decent height)
     [SerializeField] private Vector2 leftWallCheckOffset = new Vector2(-0.5f, 0f); // Offset for left wall check
     [SerializeField] private Vector2 rightWallCheckOffset = new Vector2(0.5f, 0f); // Offset for right wall check
-    [SerializeField] private float wallJumpForceX = 5f; // Horizontal force when wall jumping
-    [SerializeField] private float wallJumpForceY = 7f; // Vertical force when wall jumping
+
     [SerializeField] private float wallSlideSpeed = 1.5f; // How fast player slides down walls
     private bool isOnWall = false;
-    private bool isWallOnLeft = false; // To know which direction to jump
 
     public float getMoveSpeed()
     {
@@ -185,9 +183,13 @@ public class PlayerController : MonoBehaviour
         HandleWeaponSwitching();
 
         // Check for wall jump
-        if (jumpButtonDown && !jumpPressed && isOnWall && !isGrounded)
+        if (isOnWall && !isGrounded)
         {
             WallJump();
+        }
+        else
+        {
+            animator.SetBool("WallJump", false);
         }
 
         // Update jumping/sliding animations
@@ -654,7 +656,6 @@ public class PlayerController : MonoBehaviour
 
         if (leftHit.collider != null)
         {
-            isWallOnLeft = true;
             return true;
         }
 
@@ -674,7 +675,6 @@ public class PlayerController : MonoBehaviour
 
         if (rightHit.collider != null)
         {
-            isWallOnLeft = false;
             return true;
         }
 
@@ -748,15 +748,11 @@ public class PlayerController : MonoBehaviour
         // Reset velocity
         rb.linearVelocity = Vector2.zero;
 
-        // Apply force in opposite direction of wall
-        float xForce = isWallOnLeft ? wallJumpForceX : -wallJumpForceX;
-        rb.AddForce(new Vector2(xForce, wallJumpForceY), ForceMode2D.Impulse);
-
         // Reset jumps to max instead of just adding one
         jumpsRemaining = maxJumps;
 
         // Play animation if needed
-        animator.SetTrigger("WallJump");
+        animator.SetBool("WallJump", true);
     }
 
 }
