@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private int maxJumps = 2; // 2 for double jump, 3 for triple jump
-    private int jumpsRemaining;
+    [SerializeField] private int jumpsRemaining;
     private bool isGrounded;
     private bool isFalling;
 
