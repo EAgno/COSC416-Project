@@ -25118,6 +25118,10 @@ PrefabInstance:
       propertyPath: flameThrowerAmmo
       value: 3000
       objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: groundCheckSize.x
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -34.94
