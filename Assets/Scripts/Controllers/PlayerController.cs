@@ -596,4 +596,13 @@ public class PlayerController : MonoBehaviour
     {
         return hasGlock17;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("DamageBreakable"))
+        {
+            Die();
+        }
+    }
+
 }
