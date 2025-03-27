@@ -6,7 +6,6 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy Stats")]
     [SerializeField] private int health = 100;
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float attackRange = 0.1f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool isGrounded;
@@ -489,9 +488,6 @@ public class EnemyController : MonoBehaviour
 
         // Set health based on level (100 per level)
         health = enemyLevel * 100;
-
-        // Scale attack range based on size
-        attackRange *= scaleFactor;
 
         // Adjust speed - larger enemies are slower
         // Reduce speed by 5% per level above 1 (up to 45% reduction at level 10)
