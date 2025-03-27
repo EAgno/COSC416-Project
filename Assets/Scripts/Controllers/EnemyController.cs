@@ -43,6 +43,15 @@ public class EnemyController : MonoBehaviour
     private bool isTouchingPlayer = false;
     private GameObject playerObject = null;
 
+    [Header("Spawning")]
+    [SerializeField] private bool canSpawnMinions = true;
+    [SerializeField] private int maxMinionsSpawned = 5;
+    [SerializeField] private float spawnCooldown = 5f;
+    [SerializeField] private int minLevelToSpawn = 5;
+    [SerializeField] private GameObject minionPrefab; // Assign the same enemy prefab
+    private float lastSpawnTime;
+    private int minionsSpawned;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -76,6 +85,12 @@ public class EnemyController : MonoBehaviour
         }
 
         UpdateAnimations();
+
+        // Check if enemy can spawn minions
+        if (canSpawnMinions && enemyLevel >= minLevelToSpawn && canSeePlayer)
+        {
+            TrySpawnMinions();
+        }
     }
 
     void HandleTestMode()
@@ -401,6 +416,9 @@ public class EnemyController : MonoBehaviour
         // Add death animation or particle effects
         animator.SetBool("isDead", true);
 
+        // Reset minion count
+        minionsSpawned = 0;
+
         // Destroy the enemy game object after a delay
         StartCoroutine(WaitAndDestroy());
 
@@ -508,5 +526,97 @@ public class EnemyController : MonoBehaviour
     public int GetEnemyLevel()
     {
         return enemyLevel;
+    }
+
+    void TrySpawnMinions()
+    {
+        // Check if cooldown has passed and we haven't reached the maximum number of minions
+        if (Time.time - lastSpawnTime >= spawnCooldown && minionsSpawned < maxMinionsSpawned)
+        {
+            SpawnMinion();
+            lastSpawnTime = Time.time;
+        }
+    }
+
+    void SpawnMinion()
+    {
+        if (minionPrefab == null)
+        {
+            Debug.LogWarning("Minion prefab not assigned to enemy!");
+            return;
+        }
+
+        // Check if player reference exists
+        if (player == null)
+        {
+            Debug.LogWarning("Cannot spawn minion: player reference is null");
+            return;
+        }
+
+        // Spawn position slightly offset from the enemy to avoid collision
+        // Now placing to the side rather than above to avoid upward trajectory bias
+        float offsetX = Random.Range(-0.5f, 0.5f);
+        Vector3 spawnPos = transform.position + new Vector3(offsetX, 0.5f, 0);
+
+        // Instantiate the minion
+        GameObject minion = Instantiate(minionPrefab, spawnPos, Quaternion.identity);
+
+        // Set the minion's level to 1
+        EnemyController minionController = minion.GetComponent<EnemyController>();
+        if (minionController != null)
+        {
+            minionController.SetEnemyLevel(1);
+
+            // Calculate exact direction from spawn position to player
+            Vector2 exactDirectionToPlayer = (player.position - spawnPos).normalized;
+
+            // Add only a small random deviation (±15 degrees)
+            float randomAngle = Random.Range(-15f, 15f);
+            float angleRad = randomAngle * Mathf.Deg2Rad;
+
+            // Rotate the direction vector by the random angle
+            float cosAngle = Mathf.Cos(angleRad);
+            float sinAngle = Mathf.Sin(angleRad);
+            Vector2 direction = new Vector2(
+                exactDirectionToPlayer.x * cosAngle - exactDirectionToPlayer.y * sinAngle,
+                exactDirectionToPlayer.x * sinAngle + exactDirectionToPlayer.y * cosAngle
+            ).normalized;
+
+            // Apply launch force to the minion
+            Rigidbody2D minionRb = minion.GetComponent<Rigidbody2D>();
+            float launchForce = 15f;
+            minionRb.AddForce(direction * launchForce, ForceMode2D.Impulse);
+
+            // Debug visualization - remove in production
+            Debug.DrawRay(spawnPos, direction * 3f, Color.red, 1.0f);
+        }
+
+        // Increment the count of spawned minions
+        minionsSpawned++;
+    }
+
+
+    // Track destroyed minions
+    void OnDestroy()
+    {
+        // If this is a parent enemy (level >= minLevelToSpawn), nothing to do
+        // If this is a minion, notify the parent enemy that it's destroyed
+        if (enemyLevel == 1 && transform.parent != null)
+        {
+            EnemyController parentEnemy = transform.parent.GetComponent<EnemyController>();
+            if (parentEnemy != null)
+            {
+                parentEnemy.MinionDestroyed();
+            }
+        }
+    }
+
+    public void MinionDestroyed()
+    {
+        // Decrement minion count when one is destroyed
+        if (minionsSpawned > 0)
+        {
+            minionsSpawned--;
+        }
     }
 }
