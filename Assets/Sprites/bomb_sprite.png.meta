@@ -1,35 +1,25 @@
 fileFormatVersion: 2
-guid: 3421078018dc3934a8c1ab3b7bf89aa0
-AssetOrigin:
-  serializedVersion: 1
-  productId: 155360
-  packageName: Pixel Adventure 1
-  packageVersion: 1.0
-  assetPath: Assets/Pixel Adventure 1/Assets/Main Characters/Appearing (96x96).png
-  uploadId: 332803
+guid: 032a039db61d94dd5aed8dbef50d263c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5583492486709806376
-    second: Appearing (96x96)_0
+      213: 3201510369988122546
+    second: bomb_sprite_0
   - first:
-      213: -7221402579709423187
-    second: Appearing (96x96)_1
+      213: -8821216720955846779
+    second: bomb_sprite_1
   - first:
-      213: 6077175626366064899
-    second: Appearing (96x96)_2
+      213: 3065677534537502035
+    second: bomb_sprite_2
   - first:
-      213: -1869290018219920624
-    second: Appearing (96x96)_3
+      213: 1947322907827030645
+    second: bomb_sprite_3
   - first:
-      213: 47813434996547701
-    second: Appearing (96x96)_4
+      213: 74222728036422299
+    second: bomb_sprite_4
   - first:
-      213: -942136525895816471
-    second: Appearing (96x96)_5
-  - first:
-      213: 5061900860415834490
-    second: Appearing (96x96)_6
+      213: 2309471671641987003
+    second: bomb_sprite_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -76,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 96
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -91,16 +81,16 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,7 +103,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,7 +116,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -138,155 +128,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Appearing (96x96)_0
+      name: bomb_sprite_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 96
-        height: 96
+        x: 4
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 39da1cfcde2d4f24593e67a0f2c1126f
-      internalID: 5583492486709806376
+      spriteID: 2b71fdb18bc0e6c20800000000000000
+      internalID: 3201510369988122546
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Appearing (96x96)_1
+      name: bomb_sprite_1
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 96
-        height: 96
+        x: 44
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 177ae72c6546518488d4d9784a09258a
-      internalID: -7221402579709423187
+      spriteID: 58fc0bc012eb49580800000000000000
+      internalID: -8821216720955846779
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Appearing (96x96)_2
+      name: bomb_sprite_2
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 96
-        height: 96
+        x: 84
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8c15876ae95865d45b18647f040696c0
-      internalID: 6077175626366064899
+      spriteID: 35dc00a99797b8a20800000000000000
+      internalID: 3065677534537502035
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Appearing (96x96)_3
+      name: bomb_sprite_3
       rect:
         serializedVersion: 2
-        x: 288
-        y: 0
-        width: 96
-        height: 96
+        x: 124
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: c29b90a9b0dae7947a0b5ff2a736f8cc
-      internalID: -1869290018219920624
+      spriteID: 57ac2080ed7460b10800000000000000
+      internalID: 1947322907827030645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Appearing (96x96)_4
+      name: bomb_sprite_4
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 96
-        height: 96
+        x: 164
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: bb0ef8a4a01ca5d4a9f1b29045666752
-      internalID: 47813434996547701
+      spriteID: b921fda8d21b70100800000000000000
+      internalID: 74222728036422299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Appearing (96x96)_5
+      name: bomb_sprite_5
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 96
-        height: 96
+        x: 204
+        y: 6
+        width: 36
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2ae0b85f2262aa24c83209a55622712f
-      internalID: -942136525895816471
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Appearing (96x96)_6
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 96
-        height: 96
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 80d5cd797f317c246b57ad3fb9370333
-      internalID: 5061900860415834490
+      spriteID: bb75c0fcf34ec0020800000000000000
+      internalID: 2309471671641987003
       vertices: []
       indices: 
       edges: []
@@ -295,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 5f706ad5212d94ec386dc50ae34db9f1
     internalID: 0
     vertices: []
     indices: 
@@ -305,13 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Appearing (96x96)_0: 5583492486709806376
-      Appearing (96x96)_1: -7221402579709423187
-      Appearing (96x96)_2: 6077175626366064899
-      Appearing (96x96)_3: -1869290018219920624
-      Appearing (96x96)_4: 47813434996547701
-      Appearing (96x96)_5: -942136525895816471
-      Appearing (96x96)_6: 5061900860415834490
+      bomb_sprite_0: 3201510369988122546
+      bomb_sprite_1: -8821216720955846779
+      bomb_sprite_2: 3065677534537502035
+      bomb_sprite_3: 1947322907827030645
+      bomb_sprite_4: 74222728036422299
+      bomb_sprite_5: 2309471671641987003
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

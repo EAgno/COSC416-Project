@@ -87,7 +87,7 @@ MonoBehaviour:
   _fireEffect: {fileID: 5124874212191521455, guid: 4031c41af813d414d83cb928dea1a8f1, type: 3}
   _fireDuration: 2
   _fireSpeed: 8
-  _fireSpawnOffset: 1.15
+  _fireSpawnOffset: 1.25
   _fireDirections: 1
   _spreadWidth: 0.25
   _spreadLength: 4
