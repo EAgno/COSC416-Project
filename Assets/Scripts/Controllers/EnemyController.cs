@@ -410,7 +410,7 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator WaitAndDestroy()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
