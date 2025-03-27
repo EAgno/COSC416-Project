@@ -25434,18 +25434,6 @@ PrefabInstance:
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1079578212}
-    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: wallCheckDistance
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: leftWallCheckOffset.x
-      value: -0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: rightWallCheckOffset.x
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.95
