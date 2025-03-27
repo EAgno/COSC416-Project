@@ -249,9 +249,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   wallCheckDistance: 0.05
-  wallCheckSize: {x: 0.05, y: 1}
-  leftWallCheckOffset: {x: -0.4, y: 0}
-  rightWallCheckOffset: {x: 0.4, y: 0}
+  wallCheckSize: {x: 0.05, y: 0.5}
+  leftWallCheckOffset: {x: -0.4, y: -0.2}
+  rightWallCheckOffset: {x: 0.4, y: -0.2}
   wallSlideSpeed: 1.5
 --- !u!1001 &4660346321645409364
 PrefabInstance:
