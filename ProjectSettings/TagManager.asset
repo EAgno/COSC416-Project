@@ -15,6 +15,8 @@ TagManager:
   - FlameThrower
   - Glock17
   - Bullet
+  - NoDrops
+  - DamageBreakable
   layers:
   - Default
   - TransparentFX
