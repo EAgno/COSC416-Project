@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5079468482161380987}
   - component: {fileID: 689031944099620503}
   m_Layer: 0
-  m_Name: BaseEnemy
+  m_Name: MinionEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,10 +146,10 @@ MonoBehaviour:
   testRightKey: 108
   testAttackKey: 32
   stunDuration: 0.5
-  canSpawnMinions: 0
-  maxMinionsSpawned: 0
+  canSpawnMinions: 1
+  maxMinionsSpawned: 5
   spawnCooldown: 1
-  minLevelToSpawn: 0
+  minLevelToSpawn: 5
   minionPrefab: {fileID: 0}
 --- !u!50 &5079468482161380987
 Rigidbody2D:

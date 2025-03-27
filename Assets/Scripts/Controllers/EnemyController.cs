@@ -572,7 +572,7 @@ public class EnemyController : MonoBehaviour
             Physics2D.IgnoreCollision(parentCollider, minionCollider, true);
 
             // Start coroutine to enable collision after delay
-            StartCoroutine(EnableCollisionAfterDelay(parentCollider, minionCollider, 0.5f));
+            StartCoroutine(EnableCollisionAfterDelay(parentCollider, minionCollider, 1f));
         }
 
         // Set the minion's level to 1
