@@ -62,6 +62,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.02f); // Size of ground check box
     [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f); // Offset from center (adjust based on your collider)
 
+    [Header("Wall Jump Detection")]
+    [SerializeField] private LayerMask wallLayer; // Assign your wall layers in the inspector
+    [SerializeField] private float wallCheckDistance = 0.1f; // Distance to check for walls
+    [SerializeField] private Vector2 wallCheckSize = new Vector2(0.02f, 0.5f); // Size of wall check box (narrow width, decent height)
+    [SerializeField] private Vector2 leftWallCheckOffset = new Vector2(-0.5f, 0f); // Offset for left wall check
+    [SerializeField] private Vector2 rightWallCheckOffset = new Vector2(0.5f, 0f); // Offset for right wall check
+    [SerializeField] private float wallJumpForceX = 5f; // Horizontal force when wall jumping
+    [SerializeField] private float wallJumpForceY = 7f; // Vertical force when wall jumping
+    [SerializeField] private float wallSlideSpeed = 1.5f; // How fast player slides down walls
+    private bool isOnWall = false;
+    private bool isWallOnLeft = false; // To know which direction to jump
+
     public float getMoveSpeed()
     {
         return moveSpeed;
@@ -171,6 +183,15 @@ public class PlayerController : MonoBehaviour
 
         // Handle weapon switching with Q key
         HandleWeaponSwitching();
+
+        // Check for wall jump
+        if (jumpButtonDown && !jumpPressed && isOnWall && !isGrounded)
+        {
+            WallJump();
+        }
+
+        // Update jumping/sliding animations
+        animator.SetBool("IsJumping", !isGrounded);
     }
 
     private void HandleWeaponSwitching()
@@ -240,6 +261,15 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckFallingState();
+
+        // Update wall state
+        isOnWall = CheckWallContact();
+
+        // Apply wall sliding
+        if (isOnWall && !isGrounded && rb.linearVelocity.y < 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -wallSlideSpeed));
+        }
     }
 
 
@@ -603,6 +633,130 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
+    }
+
+    // Improved wall contact check
+    private bool CheckWallContact()
+    {
+        // Check left wall
+        Vector2 leftCheckPosition = (Vector2)transform.position + leftWallCheckOffset;
+        RaycastHit2D leftHit = Physics2D.BoxCast(
+            leftCheckPosition,
+            wallCheckSize,
+            0f,
+            Vector2.left,
+            wallCheckDistance,
+            wallLayer
+        );
+
+        // Draw debug visualization for left check regardless of hit
+        DrawWallCheck(leftCheckPosition, true, leftHit.collider != null);
+
+        if (leftHit.collider != null)
+        {
+            isWallOnLeft = true;
+            return true;
+        }
+
+        // Check right wall
+        Vector2 rightCheckPosition = (Vector2)transform.position + rightWallCheckOffset;
+        RaycastHit2D rightHit = Physics2D.BoxCast(
+            rightCheckPosition,
+            wallCheckSize,
+            0f,
+            Vector2.right,
+            wallCheckDistance,
+            wallLayer
+        );
+
+        // Draw debug visualization for right check regardless of hit
+        DrawWallCheck(rightCheckPosition, false, rightHit.collider != null);
+
+        if (rightHit.collider != null)
+        {
+            isWallOnLeft = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    // Improved debug visualization with better visibility and wall contact indicator
+    private void DrawWallCheck(Vector2 position, bool isLeftWall, bool hasContact)
+    {
+#if UNITY_EDITOR
+        // Use different colors based on contact state
+        Color debugColor = hasContact ? Color.green : Color.red;
+        Vector2 direction = isLeftWall ? Vector2.left : Vector2.right;
+
+        // Draw the outer bounds of the box
+        float halfHeight = wallCheckSize.y / 2;
+        float halfWidth = wallCheckSize.x / 2;
+
+        // Top edge
+        Debug.DrawLine(
+            position + new Vector2(-halfWidth, halfHeight),
+            position + new Vector2(halfWidth, halfHeight),
+            debugColor
+        );
+
+        // Bottom edge
+        Debug.DrawLine(
+            position + new Vector2(-halfWidth, -halfHeight),
+            position + new Vector2(halfWidth, -halfHeight),
+            debugColor
+        );
+
+        // Left edge
+        Debug.DrawLine(
+            position + new Vector2(-halfWidth, -halfHeight),
+            position + new Vector2(-halfWidth, halfHeight),
+            debugColor
+        );
+
+        // Right edge
+        Debug.DrawLine(
+            position + new Vector2(halfWidth, -halfHeight),
+            position + new Vector2(halfWidth, halfHeight),
+            debugColor
+        );
+
+        // Draw the cast ray in the middle
+        Debug.DrawRay(position, direction * wallCheckDistance, debugColor);
+
+        // Add some diagonal lines to make it more visible when contact occurs
+        if (hasContact)
+        {
+            Debug.DrawLine(
+                position + new Vector2(-halfWidth, -halfHeight),
+                position + new Vector2(halfWidth, halfHeight),
+                Color.yellow
+            );
+
+            Debug.DrawLine(
+                position + new Vector2(halfWidth, -halfHeight),
+                position + new Vector2(-halfWidth, halfHeight),
+                Color.yellow
+            );
+        }
+#endif
+    }
+
+    // Perform wall jump
+    private void WallJump()
+    {
+        // Reset velocity
+        rb.linearVelocity = Vector2.zero;
+
+        // Apply force in opposite direction of wall
+        float xForce = isWallOnLeft ? wallJumpForceX : -wallJumpForceX;
+        rb.AddForce(new Vector2(xForce, wallJumpForceY), ForceMode2D.Impulse);
+
+        // Reset jumps to max instead of just adding one
+        jumpsRemaining = maxJumps;
+
+        // Play animation if needed
+        animator.SetTrigger("WallJump");
     }
 
 }

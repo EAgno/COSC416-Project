@@ -243,11 +243,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7720875698465704187, guid: d1e6a14491e077d4aafbdcd806daf387, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.94
+      value: -3.95
       objectReference: {fileID: 0}
     - target: {fileID: 7720875698465704187, guid: d1e6a14491e077d4aafbdcd806daf387, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.94
+      value: 18.95
       objectReference: {fileID: 0}
     - target: {fileID: 7720875698465704187, guid: d1e6a14491e077d4aafbdcd806daf387, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4145,11 +4145,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 375490026919866603, guid: 2c2584be5eb1eaa4899ffe059605d882, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.94
+      value: -3.95
       objectReference: {fileID: 0}
     - target: {fileID: 375490026919866603, guid: 2c2584be5eb1eaa4899ffe059605d882, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.94
+      value: 18.95
       objectReference: {fileID: 0}
     - target: {fileID: 375490026919866603, guid: 2c2584be5eb1eaa4899ffe059605d882, type: 3}
       propertyPath: m_LocalPosition.z
@@ -25107,28 +25107,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: glock17Ammo
-      value: 3000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1079578212}
     - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: flameThrowerAmmo
-      value: 3000
+      propertyPath: wallCheckSize.x
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: groundCheckSize.x
-      value: 0.6
+      propertyPath: wallCheckSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
+      propertyPath: wallLayer.m_Bits
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.94
+      value: -3.95
       objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.94
+      value: 18.95
       objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.z
