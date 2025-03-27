@@ -506,6 +506,14 @@ public class EnemyController : MonoBehaviour
 
         // Set health based on level (100 per level)
         health = enemyLevel * 100;
+        if(enemyLevel == 1)
+        {
+            health = 20;
+        }
+        if(enemyLevel == 10)
+        {
+            health = 2500;
+        }
 
         // Adjust speed - larger enemies are slower
         // Reduce speed by 5% per level above 1 (up to 45% reduction at level 10)

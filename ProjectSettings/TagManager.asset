@@ -18,6 +18,7 @@ TagManager:
   - NoDrops
   - DamageBreakable
   - Enemy
+  - BreakOverTime
   layers:
   - Default
   - TransparentFX
