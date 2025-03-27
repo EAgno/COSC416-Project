@@ -38,7 +38,7 @@ public class Fire : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Handle Tilemap collisions
-        if (other.CompareTag("Breakable"))
+        if (other.CompareTag("Breakable") || other.CompareTag("NoDrops") || other.CompareTag("DamageBreakable"))
         {
 
             Tilemap tilemap = other.GetComponent<Tilemap>();
@@ -71,7 +71,7 @@ public class Fire : MonoBehaviour
                 if (tilemap.HasTile(cellPosition))
                 {
                     tilemap.SetTile(cellPosition, null);
-                    SpawnDestroyEffect(hitPosition, destroyEffectDuration);
+                    SpawnDestroyEffect(hitPosition, destroyEffectDuration, other.CompareTag("Breakable"));
                 }
 
                 return; // Exit to avoid processing the entire Tilemap further
@@ -98,13 +98,16 @@ public class Fire : MonoBehaviour
 
 
     }
-    public void SpawnDestroyEffect(Vector2 position, float duration)
+    public void SpawnDestroyEffect(Vector2 position, float duration, bool drop)
     {
         if (_destroyEffect != null)
         {
             GameObject destroyEffect = Instantiate(_destroyEffect, position, Quaternion.identity);
             Destroy(destroyEffect, duration);
-            SpawnItem(position);
+            if (drop)
+            {
+                SpawnItem(position);
+            }
         }
     }
 
