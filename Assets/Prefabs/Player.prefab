@@ -242,7 +242,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   groundCheckDistance: 0.4
-  groundCheckSize: {x: 1.1, y: 0.02}
+  groundCheckSize: {x: 0.6, y: 0.02}
   groundCheckOffset: {x: 0, y: -0.5}
 --- !u!1001 &4660346321645409364
 PrefabInstance:
