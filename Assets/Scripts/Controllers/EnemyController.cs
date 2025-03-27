@@ -553,13 +553,27 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        // Spawn position slightly offset from the enemy to avoid collision
-        // Now placing to the side rather than above to avoid upward trajectory bias
-        float offsetX = Random.Range(-0.5f, 0.5f);
-        Vector3 spawnPos = transform.position + new Vector3(offsetX, 0.5f, 0);
+        // Determine which direction the enemy is facing (based on sprite direction)
+        float facingDirection = spriteRenderer.flipX ? -1f : 1f;
+
+        // Spawn position in front of the enemy based on their facing direction
+        Vector3 spawnPos = transform.position + new Vector3(facingDirection * 1.5f, 0f, 0f);
 
         // Instantiate the minion
         GameObject minion = Instantiate(minionPrefab, spawnPos, Quaternion.identity);
+
+        // Get the colliders from both objects
+        Collider2D parentCollider = GetComponent<Collider2D>();
+        Collider2D minionCollider = minion.GetComponent<Collider2D>();
+
+        // Ignore collision between parent and minion
+        if (parentCollider != null && minionCollider != null)
+        {
+            Physics2D.IgnoreCollision(parentCollider, minionCollider, true);
+
+            // Start coroutine to enable collision after delay
+            StartCoroutine(EnableCollisionAfterDelay(parentCollider, minionCollider, 0.5f));
+        }
 
         // Set the minion's level to 1
         EnemyController minionController = minion.GetComponent<EnemyController>();
@@ -595,7 +609,17 @@ public class EnemyController : MonoBehaviour
         minionsSpawned++;
     }
 
+    // Helper method to enable collision after delay
+    private IEnumerator EnableCollisionAfterDelay(Collider2D collider1, Collider2D collider2, float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
+        // Check if both objects still exist before enabling collision
+        if (collider1 != null && collider2 != null)
+        {
+            Physics2D.IgnoreCollision(collider1, collider2, false);
+        }
+    }
     // Track destroyed minions
     void OnDestroy()
     {
