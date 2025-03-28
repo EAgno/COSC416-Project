@@ -48765,10 +48765,6 @@ PrefabInstance:
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1190825683}
-    - target: {fileID: 1807551286650080040, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
-      propertyPath: flameThrowerAmmo
-      value: 2034
-      objectReference: {fileID: 0}
     - target: {fileID: 4613040842965165510, guid: 34c446b2f2b734948bef820fcc8d630e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.49
