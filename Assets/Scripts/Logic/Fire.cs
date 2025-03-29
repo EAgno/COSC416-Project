@@ -83,6 +83,10 @@ public class Fire : MonoBehaviour
                         bool shouldDrop = Random.Range(0f, 1f) <= 0.3f;
                         SpawnDestroyEffect(hitPosition, destroyEffectDuration, shouldDrop);
                     }
+                    else if (other.CompareTag("100Chance"))
+                    {
+                        SpawnDestroyEffect(hitPosition, destroyEffectDuration, true);
+                    }
                     else
                     {
                         // No drops for other tags (e.g., "NoDrops")
