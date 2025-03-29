@@ -38,7 +38,7 @@ public class Fire : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Handle Tilemap collisions
-        if (other.CompareTag("Breakable") || other.CompareTag("NoDrops") || other.CompareTag("30Chance"))
+        if (other.CompareTag("Breakable") || other.CompareTag("NoDrops") || other.CompareTag("30Chance") || other.CompareTag("100Chance"))
         {
             Tilemap tilemap = other.GetComponent<Tilemap>();
             if (tilemap != null)
