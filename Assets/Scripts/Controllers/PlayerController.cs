@@ -10,10 +10,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputManager inputManager;
-    [SerializeField] private TextMeshProUGUI livesText;
-    [SerializeField] private GameObject flameThrowerFramePrefab;
-    [SerializeField] private GameObject glock17FramePrefab;
-    [SerializeField] private Transform currentWeaponUI; // Reference to CurrentWeaponUI
     [SerializeField] private Transform groundCheck;
 
     [Header("Movement Parameters")]
@@ -85,6 +81,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bombFrame;
     [SerializeField] private GameObject flameThrowerFrame;
     [SerializeField] private GameObject glock17Frame;
+
+    [SerializeField] private TextMeshProUGUI livesText;
+
     public float getMoveSpeed()
     {
         return moveSpeed;
