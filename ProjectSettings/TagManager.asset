@@ -19,6 +19,8 @@ TagManager:
   - DamageBreakable
   - Enemy
   - BreakOverTime
+  - 30Chance
+  - 100Chance
   layers:
   - Default
   - TransparentFX
