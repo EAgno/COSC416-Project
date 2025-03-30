@@ -38,9 +38,8 @@ public class Fire : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Handle Tilemap collisions
-        if (other.CompareTag("Breakable"))
+        if (other.CompareTag("Breakable") || other.CompareTag("NoDrops") || other.CompareTag("30Chance") || other.CompareTag("100Chance"))
         {
-
             Tilemap tilemap = other.GetComponent<Tilemap>();
             if (tilemap != null)
             {
@@ -71,12 +70,32 @@ public class Fire : MonoBehaviour
                 if (tilemap.HasTile(cellPosition))
                 {
                     tilemap.SetTile(cellPosition, null);
-                    SpawnDestroyEffect(hitPosition, destroyEffectDuration);
+
+                    // Different spawn logic based on tag
+                    if (other.CompareTag("Breakable"))
+                    {
+                        // 100% chance to drop for "Breakable" tag
+                        SpawnDestroyEffect(hitPosition, destroyEffectDuration, true);
+                    }
+                    else if (other.CompareTag("30Chance"))
+                    {
+                        // 30% chance to drop for "30Chance" tag
+                        bool shouldDrop = Random.Range(0f, 1f) <= 0.3f;
+                        SpawnDestroyEffect(hitPosition, destroyEffectDuration, shouldDrop);
+                    }
+                    else if (other.CompareTag("100Chance"))
+                    {
+                        SpawnDestroyEffect(hitPosition, destroyEffectDuration, true);
+                    }
+                    else
+                    {
+                        // No drops for other tags (e.g., "NoDrops")
+                        SpawnDestroyEffect(hitPosition, destroyEffectDuration, false);
+                    }
                 }
 
                 return; // Exit to avoid processing the entire Tilemap further
             }
-
 
             // Handle non-tilemap breakable objects
             Breakable breakable = other.GetComponent<Breakable>();
@@ -95,16 +114,18 @@ public class Fire : MonoBehaviour
                 playerComponent.Die();
             }
         }
-
-
     }
-    public void SpawnDestroyEffect(Vector2 position, float duration)
+
+    public void SpawnDestroyEffect(Vector2 position, float duration, bool drop)
     {
         if (_destroyEffect != null)
         {
             GameObject destroyEffect = Instantiate(_destroyEffect, position, Quaternion.identity);
             Destroy(destroyEffect, duration);
-            SpawnItem(position);
+            if (drop)
+            {
+                SpawnItem(position);
+            }
         }
     }
 
