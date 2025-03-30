@@ -60,7 +60,11 @@ public class Pickable : MonoBehaviour
                     player.setMoveSpeed(player.getMoveSpeed() + 0.5f);
                     break;
                 case "ExtraLife":
-                    player.setLives(player.getLives() + 1);
+                    if (player.getLives() < 3)
+                    {
+                        player.setLives(player.getLives() + 1);
+                        player.UpdateLivesUI();
+                    }
                     break;
                 case "ExtraBomb":
                     player.setBombAttacks(player.getBombAttacks() + 1);

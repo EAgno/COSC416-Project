@@ -1,11 +1,16 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+
 
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputManager inputManager;
+    [SerializeField] private Transform groundCheck;
 
     [Header("Movement Parameters")]
     [SerializeField] private float moveSpeed = 5f;
@@ -71,6 +76,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float wallSlideSpeed = 1.5f; // How fast player slides down walls
     private bool isOnWall = false;
+
+    [Header("UI")]
+    [SerializeField] private GameObject bombFrame;
+    [SerializeField] private GameObject flameThrowerFrame;
+    [SerializeField] private GameObject glock17Frame;
+
+    [SerializeField] private TextMeshProUGUI livesText;
 
     public float getMoveSpeed()
     {
@@ -150,6 +162,11 @@ public class PlayerController : MonoBehaviour
         // Ensure all weapons are disabled at start
         DeactivateAllWeapons();
 
+        // Update UI
+        UpdateLivesUI();
+        SetCurrentFrameUI();
+
+
         // Subscribe to the attack events
         inputManager.OnAttackPressed.AddListener(OnAttackPressed);
         inputManager.OnAttackHeld.AddListener(OnAttackHeld);
@@ -159,6 +176,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         // Get input
         movement = inputManager.GetMovementInput();
 
@@ -194,6 +212,8 @@ public class PlayerController : MonoBehaviour
 
         // Update jumping/sliding animations
         animator.SetBool("IsJumping", !isGrounded);
+
+
     }
 
     private void HandleWeaponSwitching()
@@ -231,6 +251,7 @@ public class PlayerController : MonoBehaviour
                 if (hasGlock17 && glock17Ammo > 0)
                 {
                     SetGlock17Active(true);
+
                 }
                 else
                 {
@@ -244,6 +265,10 @@ public class PlayerController : MonoBehaviour
                 DeactivateAllWeapons();
                 break;
         }
+        // Update UI
+        SetCurrentFrameUI();
+        // Log the current weapon for debugging
+        Debug.Log("Current weapon: " + currentWeapon.ToString());
     }
 
     // this line actually moves the player in the FixedUpdate method
@@ -521,15 +546,19 @@ public class PlayerController : MonoBehaviour
         if (isInvulnerable) return;
 
         lives--;
+
         if (lives <= 0)
         {
-            Debug.Log("Game Over");
+            SceneManager.LoadScene("LoseScreen");
         }
         else
         {
+            UpdateLivesUI();
             StartCoroutine(InvulnerabilityCoroutine());
         }
     }
+
+
 
     private void CheckFallingState()
     {
@@ -572,6 +601,9 @@ public class PlayerController : MonoBehaviour
         {
             flamethrowerChild.gameObject.SetActive(isActive);
         }
+
+        SetCurrentFrameUI();
+
     }
 
     public void SetGlock17Active(bool isActive)
@@ -589,6 +621,7 @@ public class PlayerController : MonoBehaviour
 
             // Set current weapon type
             currentWeapon = WeaponType.Glock17;
+
         }
 
         Transform glockChild = gameObject.transform.Find("Glock17");
@@ -596,6 +629,9 @@ public class PlayerController : MonoBehaviour
         {
             glockChild.gameObject.SetActive(isActive);
         }
+
+        SetCurrentFrameUI();
+
     }
 
     private void DeactivateAllWeapons()
@@ -616,6 +652,8 @@ public class PlayerController : MonoBehaviour
 
         // Reset weapon type
         currentWeapon = WeaponType.None;
+        SetCurrentFrameUI();
+
     }
 
     // Add these public methods to allow adding ammo
@@ -755,4 +793,32 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("WallJump", true);
     }
 
+
+    public void UpdateLivesUI()
+    {
+        livesText.text = lives.ToString();
+    }
+
+    private void SetCurrentFrameUI()
+    {
+        Debug.Log("Current Weapon:" + currentWeapon);
+        switch (currentWeapon)
+        {
+            case WeaponType.None:
+                bombFrame.SetActive(true);
+                flameThrowerFrame.SetActive(false);
+                glock17Frame.SetActive(false);
+                break;
+            case WeaponType.FlameThrower:
+                bombFrame.SetActive(false);
+                flameThrowerFrame.SetActive(true);
+                glock17Frame.SetActive(false);
+                break;
+            case WeaponType.Glock17:
+                bombFrame.SetActive(false);
+                flameThrowerFrame.SetActive(false);
+                glock17Frame.SetActive(true);
+                break;
+        }
+    }
 }
