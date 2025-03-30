@@ -3,12 +3,23 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject pauseMenuCanvas; // Assign the Pause Menu Canvas in the Inspector
-    private bool isPaused = false;
+    [SerializeField] private GameObject pauseMenuCanvas; // Optional: Assign in Inspector
+    private bool isPaused = false; // Start unpaused
+
+    void Start()
+    {
+        if (pauseMenuCanvas == null)
+        {
+            Debug.LogWarning("Pause menu canvas is not assigned in the Inspector.");
+        }
+        else
+        {
+            pauseMenuCanvas.SetActive(false); // Ensure it starts hidden
+        }
+    }
 
     void Update()
     {
-        pauseMenuCanvas.SetActive(isPaused); // Show the Pause Menu Canvas when game is paused
         if (Input.GetKeyDown(KeyCode.Escape)) // Toggle pause when ESC is pressed
         {
             TogglePause();
@@ -18,23 +29,18 @@ public class MenuController : MonoBehaviour
     public void TogglePause()
     {
         isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f; // Pause or resume game
 
-        if (isPaused)
+        if (pauseMenuCanvas != null)
         {
-            Time.timeScale = 0f; // Freeze the game
-            pauseMenuCanvas.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1f; // Resume the game
-            pauseMenuCanvas.SetActive(false);
+            pauseMenuCanvas.SetActive(isPaused);
         }
     }
 
     public void PlayGame()
     {
         Time.timeScale = 1f; // Ensure time resumes when switching scenes
-        SceneManager.LoadScene("SampleScene"); // Loads level one scene
+        SceneManager.LoadScene("Level1"); // Loads level one scene
     }
 
     public void QuitGame()
