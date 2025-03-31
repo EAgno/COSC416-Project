@@ -51,6 +51,6 @@ public class MenuController : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // Stops play mode in Unity Editor
 #endif
-        Application.Quit(); // Exits the game
+        SceneManager.LoadScene("StartScreen"); // Loads level one scene
     }
 }

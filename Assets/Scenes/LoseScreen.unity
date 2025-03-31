@@ -658,6 +658,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1351602939810922820}
     m_Modifications:
+    - target: {fileID: 1411425200147628730, guid: 7c46a99dca2244cffae15a538347dd9b, type: 3}
+      propertyPath: m_text
+      value: Play AGAIn
+      objectReference: {fileID: 0}
     - target: {fileID: 2104698572746415695, guid: 7c46a99dca2244cffae15a538347dd9b, type: 3}
       propertyPath: m_Name
       value: PlayButton 1
@@ -768,6 +772,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1351602939810922820}
     m_Modifications:
+    - target: {fileID: 2017152272224334270, guid: 0173b0983bcc2475aa7aa269b8853bc5, type: 3}
+      propertyPath: m_text
+      value: 'MENU
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 2347583263815647194, guid: 0173b0983bcc2475aa7aa269b8853bc5, type: 3}
       propertyPath: m_Name
       value: QuitButton 1
@@ -1068,6 +1078,18 @@ PrefabInstance:
     - target: {fileID: 2775085953379344306, guid: dd7c928344e5d435b90f8993b0fa6a3c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878410619805829110, guid: dd7c928344e5d435b90f8993b0fa6a3c, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878410619805829110, guid: dd7c928344e5d435b90f8993b0fa6a3c, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878410619805829110, guid: dd7c928344e5d435b90f8993b0fa6a3c, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 4847060995568067250, guid: dd7c928344e5d435b90f8993b0fa6a3c, type: 3}
       propertyPath: m_LocalScale.x

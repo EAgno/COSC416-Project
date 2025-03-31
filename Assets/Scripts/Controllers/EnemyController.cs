@@ -444,7 +444,10 @@ public class EnemyController : MonoBehaviour
         if (testModeEnabled && Application.isPlaying)
         {
             Gizmos.color = Color.yellow;
+
+#if UNITY_EDITOR
             UnityEditor.Handles.Label(transform.position + Vector3.up * 2, "TEST MODE");
+#endif
         }
 
         // Draw enemy level indicator with color based on level
@@ -463,7 +466,10 @@ public class EnemyController : MonoBehaviour
 
             Gizmos.color = levelColor;
             string levelText = "Level " + enemyLevel;
+
+#if UNITY_EDITOR
             UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, levelText);
+#endif
         }
 
         // Draw detection radius
