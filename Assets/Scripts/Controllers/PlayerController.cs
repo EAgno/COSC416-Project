@@ -549,7 +549,9 @@ public class PlayerController : MonoBehaviour
 
         if (lives <= 0)
         {
-            SceneManager.LoadScene("LoseScreen");
+            animator.SetBool("IsDead", true);
+            // pause for 2 seconds
+            StartCoroutine(WaitAndLoadLoseScreen(1f));
         }
         else
         {
@@ -558,6 +560,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitAndLoadLoseScreen(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene("LoseScreen");
+    }
 
 
     private void CheckFallingState()
