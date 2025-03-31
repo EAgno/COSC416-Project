@@ -29,6 +29,7 @@ public class Bomb : MonoBehaviour
 
     public void Explode()
     {
+        AudioManager.instance.PlaySFX("Explode");
         // Destroy the bomb itself
         Destroy(gameObject);
 

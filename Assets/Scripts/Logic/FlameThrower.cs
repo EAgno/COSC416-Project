@@ -23,6 +23,7 @@ public class FlameThrower : MonoBehaviour
 
     public void Shoot()
     {
+        AudioManager.instance.PlaySFX("FireSpray");
         // Get player's facing direction
         _isFacingLeft = transform.localScale.x < 0;
 

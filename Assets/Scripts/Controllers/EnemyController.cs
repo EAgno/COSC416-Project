@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -409,7 +410,7 @@ public class EnemyController : MonoBehaviour
     }
     void Die()
     {
-        // Disable collider to prevent further collisions but make sure it is fixed in place
+        // Disable collider to prevent further collisions
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false;
 
@@ -419,10 +420,15 @@ public class EnemyController : MonoBehaviour
         // Reset minion count
         minionsSpawned = 0;
 
+        // If this enemy is the final boss, wait for a few seconds before loading the WinScreen scene
+        if (enemyLevel == 10)
+        {
+            AudioManager.instance.PlaySFX("GameOver");
+            SceneManager.LoadScene("WinScreen");
+        }
+
         // Destroy the enemy game object after a delay
         StartCoroutine(WaitAndDestroy());
-
-        // Could also add score increment, item drops, etc. here
     }
 
     IEnumerator WaitAndDestroy()
@@ -512,7 +518,7 @@ public class EnemyController : MonoBehaviour
         }
         if(enemyLevel == 10)
         {
-            health = 2500;
+            health = 5000;
         }
 
         // Adjust speed - larger enemies are slower

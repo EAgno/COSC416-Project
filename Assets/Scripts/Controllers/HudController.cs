@@ -18,11 +18,13 @@ public class HudController : MonoBehaviour
         if (lives > 0)
         {
             lives--;
+            AudioManager.instance.PlaySFX("Ouch");
             UpdateLivesUI();
         }
 
         if (lives <= 0)
         {
+            AudioManager.instance.PlaySFX("GameOver");
             // Load the you lose scene
             SceneManager.LoadScene("LoseScreen");
         }

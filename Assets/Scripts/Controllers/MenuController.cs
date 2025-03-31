@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,12 +40,14 @@ public class MenuController : MonoBehaviour
 
     public void PlayGame()
     {
+        AudioManager.instance.PlaySFX("Select");
         Time.timeScale = 1f; // Ensure time resumes when switching scenes
         SceneManager.LoadScene("Level1"); // Loads level one scene
     }
 
     public void QuitGame()
     {
+        AudioManager.instance.PlaySFX("Select");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // Stops play mode in Unity Editor
 #endif
