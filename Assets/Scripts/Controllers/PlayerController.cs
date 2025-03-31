@@ -550,8 +550,8 @@ public class PlayerController : MonoBehaviour
         if (lives <= 0)
         {
             animator.SetBool("IsDead", true);
-            // pause for 2 seconds
-            StartCoroutine(WaitAndLoadLoseScreen(1f));
+            // pause for 1 seconds
+            StartCoroutine(WaitAndLoadLoseScreen(0.60f));
         }
         else
         {
