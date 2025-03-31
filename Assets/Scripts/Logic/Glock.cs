@@ -9,6 +9,7 @@ public class Glock : MonoBehaviour
 
     public void Shoot()
     {
+        AudioManager.instance.PlaySFX("Shots");
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 

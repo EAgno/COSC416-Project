@@ -79,7 +79,7 @@ public class Pickable : MonoBehaviour
                     player.SetGlock17Active(true);
                     break;
             }
-
+            AudioManager.instance.PlaySFX("PowerUp");
             Destroy(gameObject);
         }
     }
