@@ -652,7 +652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AN escape Game that is the bomb!
+  m_text: A bomb ahh platformer game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 66fc7f28d67164a3bb661701e8944410, type: 2}
   m_sharedMaterial: {fileID: -8707484449276146209, guid: 66fc7f28d67164a3bb661701e8944410, type: 2}
