@@ -5,7 +5,7 @@ Ethan Agno
 
 Rin Meng
 
-Noah Semashkewich
+Noah Semashkewich (53882873)
 
 Noah Stewart (50706464)
 ## Itch.io Demo
