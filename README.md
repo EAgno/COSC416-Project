@@ -1,9 +1,9 @@
 # COSC 416 Final Project - 3 Big Booms 
 ## A Bomberman Twist By:
 
-Ethan Agno
+Ethan Agno (37148814)
 
-Rin Meng
+Rin Meng ()
 
 Noah Semashkewich (53882873)
 
