@@ -17,9 +17,9 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 
 ### Ethan Agno
 #### Item 1
-evidence
+evidence: [#23](https://github.com/EAgno/COSC416-Project/pull/23)
 #### Item 2
-evidence
+evidence: [#30](https://github.com/EAgno/COSC416-Project/pull/30)
 
 ### Rin Meng
 #### Item 1
