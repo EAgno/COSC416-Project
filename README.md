@@ -19,6 +19,8 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 #### 1. Created/Implemented Level 2 Design (Including Enemy Locations, Chest/Crate Locations, Forcing different mechanics, etc.)
 [#23](https://github.com/EAgno/COSC416-Project/pull/23)
 
+[#8](https://github.com/EAgno/COSC416-Project/pull/8)
+
 ##### Notable Commits:
 
 https://github.com/EAgno/COSC416-Project/commit/13ca90e835e15b835f94079de48a2989a048a915
@@ -45,6 +47,9 @@ https://github.com/EAgno/COSC416-Project/commit/a2cd607601763846817464b568718c42
 ### Noah Semashkewich
 #### 1. Created/Implemented Level 1 Design (Including Enemy Locations, Chest/Crate Locations, Forcing different mechanics, etc.)
 [#25](https://github.com/EAgno/COSC416-Project/pull/25)
+
+[#28](https://github.com/EAgno/COSC416-Project/pull/28)
+[#19](https://github.com/EAgno/COSC416-Project/pull/19)
 
 ##### Notable Commits:
 
