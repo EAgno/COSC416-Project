@@ -13,3 +13,12 @@ https://stewdio.itch.io/3-big-booms
 ## Youtube Demo
 https://www.youtube.com/watch?v=4RUM7tpzxFQ
 
+## Individual Contributions: 
+
+### Ethan Agno
+
+### Rin Meng
+
+### Noah Semashkewich
+
+### Noah Stewart
