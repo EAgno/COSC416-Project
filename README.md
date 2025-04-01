@@ -16,8 +16,25 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 ## Individual Contributions: 
 
 ### Ethan Agno
+#### 1. Created/Implemented Level 2 Design (Including Enemy Locations, Chest/Crate Locations, Forcing different mechanics, etc.)
 [#23](https://github.com/EAgno/COSC416-Project/pull/23)
+
+##### Notable Commits:
+
+https://github.com/EAgno/COSC416-Project/commit/13ca90e835e15b835f94079de48a2989a048a915
+
+https://github.com/EAgno/COSC416-Project/commit/b9ae0405068c16514f73949dd7d05da589faa5c8
+
+https://github.com/EAgno/COSC416-Project/commit/8aa227b298782f7242853a3edbafe317ff0df4e7
+
+https://github.com/EAgno/COSC416-Project/commit/1f2a0492d754595c8526f18cda5122f18411aa4b
+
+#### 2. Adding Audio/SFX and connecting level 1 to level 2 (level 2 is seen as level 3 in the repository)
 [#30](https://github.com/EAgno/COSC416-Project/pull/30)
+
+##### Notable Commits:
+
+https://github.com/EAgno/COSC416-Project/commit/a2cd607601763846817464b568718c42955b4e6d
 
 ### Rin Meng
 [#13](https://github.com/EAgno/COSC416-Project/pull/13)
@@ -26,10 +43,25 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 [#18](https://github.com/EAgno/COSC416-Project/pull/18)
 
 ### Noah Semashkewich
-#### Item 1
-evidence
-#### Item 2
-evidence
+#### 1. Created/Implemented Level 1 Design (Including Enemy Locations, Chest/Crate Locations, Forcing different mechanics, etc.)
+[#25](https://github.com/EAgno/COSC416-Project/pull/25)
+
+##### Notable Commits:
+
+https://github.com/EAgno/COSC416-Project/commit/deefcb4aa4a98882417319ee6000629b8ac9f7a4
+
+https://github.com/EAgno/COSC416-Project/commit/d2829e4305236ade6a9e3f14ef25ab8ac2ae6347
+
+https://github.com/EAgno/COSC416-Project/commit/145ad98b07e10a585b20c3db329ee1fd28768306
+
+https://github.com/EAgno/COSC416-Project/commit/486fe6d5cba3d906c8c47f7a606fbb3db45dd669
+
+#### 2. Created initial level Scenes for future use and backups
+[#4](https://github.com/EAgno/COSC416-Project/pull/4)
+
+##### Notable Commits:
+
+https://github.com/EAgno/COSC416-Project/commit/4921092f951e68e1991fd34e105d2e75204ca45d
 
 ### Noah Stewart
 #### 1. Adding All Functional UI 
