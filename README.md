@@ -16,9 +16,21 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 ## Individual Contributions: 
 
 ### Ethan Agno
+#### Item 1
+evidence
+#### Item 2
+evidence
 
 ### Rin Meng
+#### Item 1
+evidence
+#### Item 2
+evidence
 
 ### Noah Semashkewich
+#### Item 1
+evidence
+#### Item 2
+evidence
 
 ### Noah Stewart
