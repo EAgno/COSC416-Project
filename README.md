@@ -39,9 +39,13 @@ https://github.com/EAgno/COSC416-Project/commit/1f2a0492d754595c8526f18cda5122f1
 https://github.com/EAgno/COSC416-Project/commit/a2cd607601763846817464b568718c42955b4e6d
 
 ### Rin Meng
+#### 1. Player model upgrade + improvements to movement mechanics, powerups and more.
 [#13](https://github.com/EAgno/COSC416-Project/pull/13)
+#### 2. Flamethrower functionality, glock functionality.
 [#15](https://github.com/EAgno/COSC416-Project/pull/15)
+#### 3. Added bomb animations and changed player Ground Detection size to make room for wall jump
 [#16](https://github.com/EAgno/COSC416-Project/pull/16)
+#### 4. Enemies; enemy movement; enemy attack; enemy health; enemy boss, animation refinement
 [#18](https://github.com/EAgno/COSC416-Project/pull/18)
 
 ### Noah Semashkewich
