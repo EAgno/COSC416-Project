@@ -16,16 +16,14 @@ https://www.youtube.com/watch?v=4RUM7tpzxFQ
 ## Individual Contributions: 
 
 ### Ethan Agno
-#### Item 1
-evidence: [#23](https://github.com/EAgno/COSC416-Project/pull/23)
-#### Item 2
-evidence: [#30](https://github.com/EAgno/COSC416-Project/pull/30)
+[#23](https://github.com/EAgno/COSC416-Project/pull/23)
+[#30](https://github.com/EAgno/COSC416-Project/pull/30)
 
 ### Rin Meng
-#### Item 1
-evidence: [#16](https://github.com/EAgno/COSC416-Project/pull/16)
-#### Item 2
-evidence: [#18](https://github.com/EAgno/COSC416-Project/pull/18)
+[#13](https://github.com/EAgno/COSC416-Project/pull/13)
+[#15](https://github.com/EAgno/COSC416-Project/pull/15)
+[#16](https://github.com/EAgno/COSC416-Project/pull/16)
+[#18](https://github.com/EAgno/COSC416-Project/pull/18)
 
 ### Noah Semashkewich
 #### Item 1
