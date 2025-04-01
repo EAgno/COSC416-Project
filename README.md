@@ -23,9 +23,9 @@ evidence
 
 ### Rin Meng
 #### Item 1
-evidence: #16
+evidence: [#16](https://github.com/EAgno/COSC416-Project/pull/16)
 #### Item 2
-evidence: #18
+evidence: [#18](https://github.com/EAgno/COSC416-Project/pull/18)
 
 ### Noah Semashkewich
 #### Item 1
