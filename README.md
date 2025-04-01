@@ -3,7 +3,7 @@
 
 Ethan Agno (37148814)
 
-Rin Meng ()
+Rin Meng (51940633)
 
 Noah Semashkewich (53882873)
 
@@ -23,9 +23,9 @@ evidence
 
 ### Rin Meng
 #### Item 1
-evidence
+evidence: #16
 #### Item 2
-evidence
+evidence: #18
 
 ### Noah Semashkewich
 #### Item 1
